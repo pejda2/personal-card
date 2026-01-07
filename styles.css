@@ -1,0 +1,20 @@
+:root{
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --muted:#666;
+  --accent:#2b6df6;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:32px}
+.card{background:var(--card);padding:28px;border-radius:12px;box-shadow:0 6px 20px rgba(20,30,60,0.08);max-width:420px;text-align:center}
+.avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:14px}
+h1{margin:6px 0;font-size:22px}
+.role{color:var(--accent);font-weight:600;margin:0}
+.bio{color:var(--muted);font-size:14px}
+.links{list-style:none;padding:0;margin-top:16px;display:flex;gap:12px;justify-content:center}
+.links a{color:var(--accent);text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid rgba(43,109,246,0.12)}
+
+@media (max-width:420px){
+  .card{width:100%;padding:20px;border-radius:10px}
+}
