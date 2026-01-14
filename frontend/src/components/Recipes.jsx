@@ -3,7 +3,7 @@ import '../styles/Recipes.css';
 import { extendedRecipes, calculateRecipeCost } from '../services/extendedApi';
 import { mockIngredients } from '../services/mockApi';
 import { geminiService } from '../services/geminiService';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo2.png';
 
 export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   const [recipes, setRecipes] = useState([]);

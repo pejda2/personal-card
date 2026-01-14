@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Auth.css';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo2.png';
 
 export default function Register({ onSwitchToLogin }) {
   const [email, setEmail] = useState('');

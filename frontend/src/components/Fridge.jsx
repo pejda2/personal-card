@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Fridge.css';
 import { mockIngredients } from '../services/mockApi';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo2.png';
 
 export default function Fridge({ onBack, onSelectRecipe }) {
   const [fridge, setFridge] = useState([]);

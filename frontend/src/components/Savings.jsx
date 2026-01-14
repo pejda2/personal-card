@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Savings.css';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo2.png';
 
 export default function Savings({ onBack }) {
   const [savedRecipes, setSavedRecipes] = useState([]);

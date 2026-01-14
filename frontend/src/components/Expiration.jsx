@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Expiration.css';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo2.png';
 
 export default function Expiration({ onBack }) {
   const [fridgeItems, setFridgeItems] = useState([]);
