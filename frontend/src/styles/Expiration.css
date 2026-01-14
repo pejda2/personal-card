@@ -1,0 +1,57 @@
+.expiration-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+}
+
+.expiration-container h2 {
+  color: white;
+  text-align: center;
+  font-size: 2rem;
+  margin: 20px 0 40px;
+}
+
+.expiration-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.expiration-item {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid;
+  transition: all 0.3s;
+}
+
+.expiration-item.valid {
+  border-left-color: #4caf50;
+}
+
+.expiration-item.expired {
+  border-left-color: #d32f2f;
+  background: #ffebee;
+}
+
+.item-name {
+  font-weight: bold;
+  color: #333;
+  font-size: 1.1rem;
+  flex: 1;
+}
+
+.item-expiration {
+  color: #666;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.expired-text {
+  color: #d32f2f;
+  font-weight: bold;
+}

@@ -1,0 +1,141 @@
+.fridge-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+}
+
+.fridge-container h2 {
+  color: white;
+  text-align: center;
+  font-size: 2rem;
+  margin: 20px 0;
+}
+
+.fridge-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.add-item {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.add-item h3 {
+  color: #667eea;
+  margin-bottom: 15px;
+}
+
+.add-item select {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 12px;
+}
+
+.input-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.input-group input {
+  padding: 12px;
+}
+
+.input-group button {
+  background-color: #ff9800;
+  color: white;
+  padding: 12px 20px;
+}
+
+.input-group button:hover {
+  background-color: #e68900;
+}
+
+.fridge-items {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.fridge-items h3 {
+  color: #667eea;
+  margin-bottom: 15px;
+}
+
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fridge-item {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.fridge-item:hover {
+  background: #efefef;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  color: #333;
+}
+
+.quantity {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+.item-details {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.delete-btn {
+  background-color: #d32f2f;
+  color: white;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #b71c1c;
+}
+
+.recommend-btn {
+  width: 100%;
+  background-color: #ff9800;
+  color: white;
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+}
+
+.recommend-btn:hover {
+  background-color: #e68900;
+}
+
+@media (max-width: 600px) {
+  .input-group {
+    grid-template-columns: 1fr;
+  }
+}
