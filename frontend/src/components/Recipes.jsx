@@ -36,28 +36,42 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   };
 
   const getRecipeStatus = (recipe) => {
-    const fridgeIngredientNames = fridgeItems.map(item => item.name.toLowerCase());
-    const hasAllIngredients = recipe.ingredients.every(ing => 
-      fridgeIngredientNames.includes(ing.name.toLowerCase())
-    );
+    const missingList = [];
+    const hasAllIngredients = recipe.ingredients.every(ing => {
+      const fridgeItem = fridgeItems.find(f => f.name.toLowerCase() === ing.name.toLowerCase());
+      if (!fridgeItem || fridgeItem.quantity < ing.quantity) {
+        const missingQty = fridgeItem ? Math.max(0, ing.quantity - fridgeItem.quantity) : ing.quantity;
+        missingList.push({ ...ing, missingQty });
+        return false;
+      }
+      return true;
+    });
     const hasSomeIngredients = recipe.ingredients.some(ing =>
-      fridgeIngredientNames.includes(ing.name.toLowerCase())
+      fridgeItems.some(f => f.name.toLowerCase() === ing.name.toLowerCase() && f.quantity > 0)
     );
 
     return {
       hasAllIngredients,
       hasSomeIngredients,
-      missing: recipe.ingredients.filter(ing => !fridgeIngredientNames.includes(ing.name.toLowerCase()))
+      missing: missingList,
+      missingCount: missingList.length
     };
   };
 
   const getFilteredRecipes = (category) => {
+    let filtered = [];
     if (category === 'quick') {
-      return recipes.filter(r => r.time <= 15);
+      filtered = recipes.filter(r => r.time <= 15);
     } else if (category === 'complete') {
-      return recipes.filter(r => getRecipeStatus(r).hasAllIngredients);
+      filtered = recipes.filter(r => getRecipeStatus(r).hasAllIngredients);
+    } else {
+      filtered = recipes.filter(r => r.category === category);
     }
-    return recipes.filter(r => r.category === category);
+    return filtered.sort((a, b) => {
+      const statusA = getRecipeStatus(a);
+      const statusB = getRecipeStatus(b);
+      return statusA.missingCount - statusB.missingCount;
+    });
   };
 
   const toggleCategory = (category) => {
@@ -230,10 +244,15 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
             <h4>Suroviny ({getRecipeStatus(selectedRecipe).missing.length} chybí):</h4>
             <ul>
               {selectedRecipe.ingredients.map((ing, idx) => {
-                const hasSurovinu = fridgeItems.some(item => item.name.toLowerCase() === ing.name.toLowerCase());
+                const fridgeItem = fridgeItems.find(item => item.name.toLowerCase() === ing.name.toLowerCase());
+                const hasEnough = fridgeItem && fridgeItem.quantity >= ing.quantity;
+                const missingQty = fridgeItem ? Math.max(0, ing.quantity - fridgeItem.quantity) : ing.quantity;
                 return (
-                  <li key={idx} className={hasSurovinu ? 'have' : 'missing'}>
-                    {hasSurovinu ? '✓' : '✗'} {ing.name} - {ing.quantity} {ing.unit}
+                  <li key={idx} className={hasEnough ? 'have' : 'missing'}>
+                    {hasEnough ? '✓' : '✗'} {ing.name} - {ing.quantity} {ing.unit}
+                    {!hasEnough && missingQty > 0 && (
+                      <span className="missing-qty"> (chybí {missingQty} {ing.unit})</span>
+                    )}
                   </li>
                 );
               })}
@@ -285,7 +304,7 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
                         <span className="time">{recipe.time} min</span>
                       </div>
                       <p className="status">
-                        {getRecipeStatus(recipe).hasAllIngredients ? '✓ Máš vše' : `${getRecipeStatus(recipe).missing.length} chybí`}
+                        {getRecipeStatus(recipe).hasAllIngredients ? '✓ Máš vše' : `${getRecipeStatus(recipe).missingCount} chybí`}
                       </p>
                     </div>
                   ))}

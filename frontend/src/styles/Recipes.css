@@ -249,6 +249,14 @@
   border-left: 4px solid #f44336;
 }
 
+.missing-qty {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d32f2f;
+}
+
 .recipe-instructions {
   margin-bottom: 25px;
 }

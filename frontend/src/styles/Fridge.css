@@ -1,4 +1,4 @@
-/* Fridge Page Styles - Bílo-zlatý design */
+/* Fridge Page Styles - Bílo-zlatý design s kategoriemi */
 
 .fridge-container {
   min-height: 100vh;
@@ -61,11 +61,11 @@
 }
 
 .fridge-content {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-.add-item {
+.add-ingredients-section {
   background: white;
   padding: 30px;
   border-radius: 16px;
@@ -74,69 +74,140 @@
   border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
-.add-item h3 {
+.add-ingredients-section h3 {
   color: #2c3e50;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   font-size: 1.3rem;
   font-weight: 600;
 }
 
-.add-item select {
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 14px;
-  border: 2px solid #e8e8e8;
-  border-radius: 10px;
-  font-size: 1rem;
-  background: #fafafa;
-  transition: all 0.3s ease;
-}
-
-.add-item select:focus {
-  outline: none;
-  border-color: #FFD700;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.1);
-}
-
-.input-group {
+.categories-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr auto;
-  gap: 12px;
-  align-items: end;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
 }
 
-.input-group input {
-  padding: 14px;
-  border: 2px solid #e8e8e8;
-  border-radius: 10px;
-  font-size: 1rem;
+.category-card {
   background: #fafafa;
+  border: 2px solid #e8e8e8;
+  border-radius: 12px;
+  overflow: hidden;
   transition: all 0.3s ease;
 }
 
-.input-group input:focus {
-  outline: none;
+.category-card:hover {
   border-color: #FFD700;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15);
 }
 
-.input-group button {
+.category-header {
+  width: 100%;
+  padding: 15px 20px;
   background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
   color: #2c3e50;
-  padding: 14px 24px;
   border: none;
-  border-radius: 10px;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-align: left;
+}
+
+.category-header:hover {
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-items {
+  padding: 15px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.ingredient-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 8px;
+  border-bottom: 1px solid #e8e8e8;
+  flex-wrap: wrap;
+}
+
+.ingredient-row:last-child {
+  border-bottom: none;
+}
+
+.ingredient-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #FFD700;
+}
+
+.ingredient-name {
+  flex: 1;
+  min-width: 120px;
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
+.ingredient-qty {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.ingredient-qty:focus {
+  outline: none;
+  border-color: #FFD700;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+}
+
+.unit-label {
+  font-size: 0.85rem;
+  color: #666;
+  min-width: 40px;
+}
+
+.ingredient-date {
+  width: 100px;
+  padding: 8px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.ingredient-date:focus {
+  outline: none;
+  border-color: #FFD700;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+}
+
+.ingredient-add-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #2c3e50;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ingredient-add-btn:hover:not(:disabled) {
+  transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
 }
 
-.input-group button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+.ingredient-add-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .fridge-items {
@@ -145,6 +216,7 @@
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15);
   border: 1px solid rgba(255, 215, 0, 0.2);
+  margin-bottom: 30px;
 }
 
 .fridge-items h3 {
@@ -154,35 +226,44 @@
   font-weight: 600;
 }
 
-.item-card {
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fridge-item {
   background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 15px;
+  padding: 16px 20px;
+  border-radius: 10px;
   border: 2px solid #e8e8e8;
-  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   transition: all 0.3s ease;
 }
 
-.item-card:hover {
+.fridge-item:hover {
   border-color: #FFD700;
-  transform: translateX(4px);
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15);
 }
 
 .item-info {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 20px;
+  flex: 1;
+  flex-wrap: wrap;
 }
 
 .item-name {
   font-weight: 600;
   color: #2c3e50;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  min-width: 120px;
 }
 
-.item-quantity {
+.item-qty {
   color: #FFA500;
   font-weight: 600;
   font-size: 1rem;
@@ -191,34 +272,25 @@
 .item-date {
   color: #666;
   font-size: 0.9rem;
-  margin-top: 8px;
-}
-
-.item-actions {
-  margin-top: 15px;
-  display: flex;
-  gap: 10px;
 }
 
 .delete-btn {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
+  background: white;
+  color: #ff6b6b;
+  border: 2px solid #ff6b6b;
+  padding: 8px 16px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
 .delete-btn:hover {
+  background: #ff6b6b;
+  color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(238, 90, 111, 0.3);
-}
-
-.recommend-section {
-  text-align: center;
-  margin-top: 30px;
 }
 
 .recommend-btn {
@@ -232,23 +304,10 @@
   font-weight: 700;
   box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .recommend-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 25px rgba(255, 215, 0, 0.4);
-}
-
-.recommend-btn:disabled {
-  background: linear-gradient(135deg, #ccc 0%, #aaa 100%);
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
-
-.min-items-warning {
-  color: #ff6b6b;
-  font-size: 0.9rem;
-  margin-top: 10px;
-  font-weight: 500;
 }

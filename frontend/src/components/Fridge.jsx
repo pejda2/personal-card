@@ -3,17 +3,32 @@ import '../styles/Fridge.css';
 import { mockIngredients } from '../services/mockApi';
 import logo from '../assets/logo2.png';
 
+const INGREDIENT_CATEGORIES = {
+  'Maso a uzeniny': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  'Ryby': [13, 14],
+  'Mléčné výrobky': [15, 16, 17, 18, 19, 20, 21, 22, 23],
+  'Zelenina': [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38],
+  'Ovoce': [39, 40, 41, 42, 43],
+  'Koloniál a ostatní': [44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
+};
+
 export default function Fridge({ onBack, onSelectRecipe }) {
   const [fridge, setFridge] = useState([]);
   const [ingredients, setIngredients] = useState([]);
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  const [expiration, setExpiration] = useState('');
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [expandedCategories, setExpandedCategories] = useState({});
+  const [ingredientInputs, setIngredientInputs] = useState({});
 
   useEffect(() => {
     loadFridge();
     setIngredients(mockIngredients);
+    setExpandedCategories({
+      'Maso a uzeniny': true,
+      'Ryby': false,
+      'Mléčné výrobky': false,
+      'Zelenina': false,
+      'Ovoce': false,
+      'Koloniál a ostatní': false
+    });
   }, []);
 
   const loadFridge = () => {
@@ -21,10 +36,12 @@ export default function Fridge({ onBack, onSelectRecipe }) {
     setFridge(data ? JSON.parse(data) : []);
   };
 
-  const handleAddItem = () => {
-    if (!selectedIngredient || quantity <= 0) return;
+  const handleAddItem = (ingredientId, quantity, expiration) => {
+    if (quantity <= 0) return;
 
-    const ingredient = ingredients.find(i => i.id === parseInt(selectedIngredient));
+    const ingredient = ingredients.find(i => i.id === ingredientId);
+    if (!ingredient) return;
+
     const newItem = {
       id: Date.now(),
       name: ingredient.name,
@@ -38,17 +55,34 @@ export default function Fridge({ onBack, onSelectRecipe }) {
     localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
     setFridge(updatedFridge);
     
-    setSelectedIngredient(null);
-    setQuantity(1);
-    setExpiration('');
-    setSelectedItem(null);
+    setIngredientInputs(prev => ({
+      ...prev,
+      [ingredientId]: { quantity: '', expiration: '' }
+    }));
   };
 
   const handleDeleteItem = (id) => {
     const updatedFridge = fridge.filter(item => item.id !== id);
     localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
     setFridge(updatedFridge);
-    setSelectedItem(null);
+  };
+
+  const toggleCategory = (category) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [category]: !prev[category]
+    }));
+  };
+
+  const getIngredientsByCategory = (category) => {
+    const ids = INGREDIENT_CATEGORIES[category];
+    return ingredients
+      .filter(ing => ids.includes(ing.id))
+      .sort((a, b) => a.name.localeCompare(b.name, 'cs'));
+  };
+
+  const isFridgeContainsIngredient = (ingredientName) => {
+    return fridge.some(item => item.name.toLowerCase() === ingredientName.toLowerCase());
   };
 
   const canRecommend = fridge.length >= 3;
@@ -64,34 +98,73 @@ export default function Fridge({ onBack, onSelectRecipe }) {
       </div>
 
       <div className="fridge-content">
-        <div className="add-item">
-          <h3>Přidat surovinu</h3>
-          <select 
-            value={selectedIngredient || ''} 
-            onChange={(e) => setSelectedIngredient(Number(e.target.value))}
-          >
-            <option value="">Vyber surovinu</option>
-            {ingredients.map(ing => (
-              <option key={ing.id} value={ing.id}>{ing.name} ({ing.unit})</option>
-            ))}
-          </select>
+        <div className="add-ingredients-section">
+          <h3>Přidat suroviny</h3>
+          <div className="categories-grid">
+            {Object.keys(INGREDIENT_CATEGORIES).map(category => (
+              <div key={category} className="category-card">
+                <button 
+                  className="category-header"
+                  onClick={() => toggleCategory(category)}
+                >
+                  {expandedCategories[category] ? '▼' : '▶'} {category}
+                </button>
 
-          <div className="input-group">
-            <input 
-              type="number" 
-              placeholder="Množství"
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-              min="0"
-            />
-            <input 
-              type="date"
-              placeholder="Datum trvanlivosti"
-              value={expiration}
-              onChange={(e) => setExpiration(e.target.value)}
-              title="Datum trvanlivosti"
-            />
-            <button onClick={handleAddItem}>Přidat</button>
+                {expandedCategories[category] && (
+                  <div className="category-items">
+                    {getIngredientsByCategory(category).map(ing => {
+                      const input = ingredientInputs[ing.id] || { quantity: '', expiration: '' };
+                      const hasItem = isFridgeContainsIngredient(ing.name);
+                      return (
+                        <div key={ing.id} className="ingredient-row">
+                          <input
+                            type="checkbox"
+                            checked={hasItem}
+                            onChange={(e) => {
+                              if (!e.target.checked && hasItem) {
+                                handleDeleteItem(fridge.find(f => f.name.toLowerCase() === ing.name.toLowerCase())?.id);
+                              }
+                            }}
+                            className="ingredient-checkbox"
+                          />
+                          <span className="ingredient-name">{ing.name}</span>
+                          <input
+                            type="number"
+                            placeholder="Množství"
+                            value={input.quantity}
+                            onChange={(e) => setIngredientInputs(prev => ({
+                              ...prev,
+                              [ing.id]: { ...input, quantity: e.target.value }
+                            }))}
+                            className="ingredient-qty"
+                            min="0"
+                            step="any"
+                          />
+                          <span className="unit-label">{ing.unit}</span>
+                          <input
+                            type="date"
+                            value={input.expiration}
+                            onChange={(e) => setIngredientInputs(prev => ({
+                              ...prev,
+                              [ing.id]: { ...input, expiration: e.target.value }
+                            }))}
+                            className="ingredient-date"
+                            title="Datum expirace"
+                          />
+                          <button
+                            onClick={() => handleAddItem(ing.id, parseFloat(input.quantity) || 0, input.expiration)}
+                            className="ingredient-add-btn"
+                            disabled={!input.quantity || parseFloat(input.quantity) <= 0}
+                          >
+                            +
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -103,16 +176,16 @@ export default function Fridge({ onBack, onSelectRecipe }) {
             <div className="items-list">
               {fridge.map(item => (
                 <div key={item.id} className="fridge-item">
-                  <div onClick={() => setSelectedItem(selectedItem === item.id ? null : item.id)} className="item-header">
-                    <span>{item.name}</span>
-                    <span className="quantity">{item.quantity} {item.unit}</span>
+                  <div className="item-info">
+                    <span className="item-name">{item.name}</span>
+                    <span className="item-qty">{item.quantity} {item.unit}</span>
+                    {item.expiration && (
+                      <span className="item-date">
+                        Exp: {new Date(item.expiration).toLocaleDateString('cs-CZ')}
+                      </span>
+                    )}
                   </div>
-                  {selectedItem === item.id && (
-                    <div className="item-details">
-                      <p>Trvanlivost: {item.expiration ? new Date(item.expiration).toLocaleDateString('cs-CZ') : 'Nespecifikováno'}</p>
-                      <button onClick={() => handleDeleteItem(item.id)} className="delete-btn">Smazat</button>
-                    </div>
-                  )}
+                  <button onClick={() => handleDeleteItem(item.id)} className="delete-btn">🗑</button>
                 </div>
               ))}
             </div>
@@ -121,7 +194,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
 
         {canRecommend && (
           <button onClick={() => onSelectRecipe(fridge)} className="recommend-btn">
-            Doporučit recept
+            🎲 Doporučit recept
           </button>
         )}
       </div>
