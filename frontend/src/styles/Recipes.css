@@ -177,6 +177,13 @@
   margin-top: 8px;
 }
 
+.saved-hint {
+  color: #c27803;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
 /* Recipe Detail */
 .recipe-detail {
   max-width: 900px;

@@ -306,6 +306,7 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
                       .map(ing => ing.name);
                     const haveDisplay = haveList.slice(0, 3).join(', ');
                     const haveExtra = haveList.length > 3 ? '…' : '';
+                    const { savedCost } = computeCosts(recipe);
 
                     return (
                       <div 
@@ -322,6 +323,7 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
                             ? '✓ Máš vše'
                             : `Máš ${haveList.length} (${haveDisplay}${haveExtra}) · Chybí ${status.missingCount}`}
                         </p>
+                        <p className="saved-hint">ušetříš: {savedCost} Kč</p>
                       </div>
                     );
                   })}
