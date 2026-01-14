@@ -2,17 +2,37 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Recipes.css';
 import { extendedRecipes, calculateRecipeCost } from '../services/extendedApi';
 import { mockIngredients } from '../services/mockApi';
+import { geminiService } from '../services/geminiService';
 
 export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [expandedCategories, setExpandedCategories] = useState({});
   const [ingredients, setIngredients] = useState([]);
+  const [useGeminiPricing, setUseGeminiPricing] = useState(false);
+  const [geminiPrices, setGeminiPrices] = useState({});
+  const [loadingPrice, setLoadingPrice] = useState(false);
+  const [currentRecipePrice, setCurrentRecipePrice] = useState(null);
 
   useEffect(() => {
     setRecipes(extendedRecipes);
     setIngredients(mockIngredients);
   }, []);
+
+  useEffect(() => {
+    if (selectedRecipe) {
+      loadRecipePrice();
+    }
+  }, [selectedRecipe, useGeminiPricing]);
+
+  const loadRecipePrice = async () => {
+    if (!selectedRecipe) return;
+    
+    setLoadingPrice(true);
+    const price = await calculateRecipeCostWithGemini(selectedRecipe);
+    setCurrentRecipePrice(price);
+    setLoadingPrice(false);
+  };
 
   const getRecipeStatus = (recipe) => {
     const fridgeIngredientNames = fridgeItems.map(item => item.name.toLowerCase());
@@ -56,6 +76,39 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   const getRandomRecipe = () => {
     const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
     setSelectedRecipe(randomRecipe);
+  };
+
+  const fetchGeminiPriceForIngredient = async (ingredientName, unit) => {
+    if (geminiPrices[ingredientName]) {
+      return geminiPrices[ingredientName];
+    }
+    
+    try {
+      const price = await geminiService.estimatePrice(ingredientName, unit);
+      setGeminiPrices(prev => ({ ...prev, [ingredientName]: price }));
+      return price;
+    } catch (error) {
+      console.error(`Chyba při načítání ceny pro ${ingredientName}:`, error);
+      return null;
+    }
+  };
+
+  const calculateRecipeCostWithGemini = async (recipe) => {
+    let total = 0;
+    for (const ing of recipe.ingredients) {
+      let price;
+      if (useGeminiPricing) {
+        price = await fetchGeminiPriceForIngredient(ing.name, ing.unit);
+      }
+      
+      if (!price) {
+        const ingredient = ingredients.find(i => i.name.toLowerCase() === ing.name.toLowerCase());
+        price = ingredient ? ingredient.avgPrice : 0;
+      }
+      
+      total += ing.quantity * price;
+    }
+    return total.toFixed(2);
   };
 
   const handleCompleteRecipe = (recipe) => {
@@ -107,7 +160,17 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   return (
     <div className="recipes-container">
       <button onClick={onBack} className="back-btn">← Zpět</button>
-      <h2>Recepty</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2>Recepty</h2>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
+          <input 
+            type="checkbox" 
+            checked={useGeminiPricing} 
+            onChange={(e) => setUseGeminiPricing(e.target.checked)}
+          />
+          Použít Gemini AI pro odhad cen
+        </label>
+      </div>
 
       {selectedRecipe ? (
         <div className="recipe-detail">
@@ -139,7 +202,10 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
           </div>
 
           <div className="recipe-cost">
-            <h4>Odhadovaná cena: {calculateRecipeCost(selectedRecipe, ingredients)} Kč</h4>
+            <h4>
+              Odhadovaná cena: {loadingPrice ? 'Načítám...' : (currentRecipePrice || calculateRecipeCost(selectedRecipe, ingredients))} Kč
+              {useGeminiPricing && !loadingPrice && <span style={{ fontSize: '12px', color: '#666', marginLeft: '8px' }}>(odhad Gemini AI)</span>}
+            </h4>
           </div>
 
           <button onClick={() => handleCompleteRecipe(selectedRecipe)} className="complete-btn">Hotovo - Uložit recept</button>
