@@ -165,21 +165,22 @@
   border-radius: 8px;
   border-left: 3px solid #FFD700;
   margin-left: 32px;
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 .input-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .input-wrapper input {
-  padding: 12px 14px;
+  padding: 14px 16px;
   border: 1px solid #d0d0d0;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 1.05rem;
   width: 100%;
+  height: 44px;
 }
 
 .input-wrapper input:focus {
@@ -199,9 +200,10 @@
 }
 
 .date-label {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: #2c3e50;
   font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 .ingredient-date {

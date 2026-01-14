@@ -148,7 +148,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
                             <div className="ingredient-inputs">
                               <div className="input-wrapper">
                                 <label className="date-label">Množství:</label>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                   <input
                                     type="number"
                                     placeholder="0"
@@ -162,7 +162,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
                                     step="any"
                                     style={{ flex: 1 }}
                                   />
-                                  <span className="unit-label" style={{ marginTop: 0 }}>{ing.unit}</span>
+                                  <span className="unit-label" style={{ marginTop: 0, fontSize: '0.95rem', fontWeight: 600 }}>{ing.unit}</span>
                                 </div>
                               </div>
 
