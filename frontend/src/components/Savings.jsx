@@ -20,8 +20,16 @@ export default function Savings({ onBack }) {
   const loadStatistics = () => {
     const data = localStorage.getItem('saved_recipes');
     const recipes = data ? JSON.parse(data) : [];
+    const getSavedValue = (r) => {
+      if (typeof r.savedAmount === 'number') return r.savedAmount;
+      if (typeof r.cost === 'number') return r.cost;
+      if (Array.isArray(r.consumedIngredients)) {
+        return r.consumedIngredients.reduce((sum, ing) => sum + (ing.totalCost || 0), 0);
+      }
+      return 0;
+    };
     setStatistics({
-      total_savings: recipes.reduce((sum, r) => sum + (r.price || 0), 0),
+      total_savings: recipes.reduce((sum, r) => sum + getSavedValue(r), 0).toFixed(2),
       recipe_count: recipes.length
     });
   };
@@ -74,7 +82,16 @@ export default function Savings({ onBack }) {
             {savedRecipes.map((recipe, idx) => (
               <div key={idx} className="saved-recipe-item">
                 <h4>{recipe.name}</h4>
-                <p className="total-saved">Celkem ušetřeno: <strong>{recipe.cost} Kč</strong></p>
+                {(() => {
+                  const fallback = Array.isArray(recipe.consumedIngredients)
+                    ? recipe.consumedIngredients.reduce((s, i) => s + (i.totalCost || 0), 0)
+                    : 0;
+                  const savedValue = recipe.savedAmount ?? recipe.cost ?? fallback;
+                  const displayValue = typeof savedValue === 'number' ? savedValue.toFixed(2) : savedValue;
+                  return (
+                    <p className="total-saved">Celkem ušetřeno: <strong>{displayValue} Kč</strong></p>
+                  );
+                })()}
                 <div className="ingredients-consumed">
                   <p className="ingredients-title">Spotřebované suroviny:</p>
                   <ul>

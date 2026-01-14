@@ -79,6 +79,42 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
     setSelectedRecipe(randomRecipe);
   };
 
+  const getIngredientPrice = (name) => {
+    const ingredient = ingredients.find(i => i.name.toLowerCase() === name.toLowerCase());
+    return ingredient ? ingredient.avgPrice : 0;
+  };
+
+  const getFridgeQuantity = (name) => {
+    const item = fridgeItems.find(i => i.name.toLowerCase() === name.toLowerCase());
+    return item ? item.quantity : 0;
+  };
+
+  const computeCosts = (recipe) => {
+    let missingCost = 0;
+    let savedCost = 0;
+
+    recipe.ingredients.forEach(ing => {
+      const price = getIngredientPrice(ing.name);
+      const availableQty = getFridgeQuantity(ing.name);
+
+      if (availableQty > 0) {
+        const usedQty = Math.min(availableQty, ing.quantity);
+        savedCost += usedQty * price;
+        const missingQty = ing.quantity - usedQty;
+        if (missingQty > 0) {
+          missingCost += missingQty * price;
+        }
+      } else {
+        missingCost += ing.quantity * price;
+      }
+    });
+
+    return {
+      missingCost: missingCost.toFixed(2),
+      savedCost: savedCost.toFixed(2)
+    };
+  };
+
   const fetchGeminiPriceForIngredient = async (ingredientName, unit) => {
     if (geminiPrices[ingredientName]) {
       return geminiPrices[ingredientName];
@@ -125,17 +161,19 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
       if (fridgeIndex !== -1) {
         const item = updatedFridge[fridgeIndex];
         const ingredient = ingredients.find(i => i.name.toLowerCase() === recipeIng.name.toLowerCase());
-        const cost = (recipeIng.quantity * ingredient.avgPrice).toFixed(2);
+        const price = ingredient ? ingredient.avgPrice : 0;
+        const usedQty = Math.min(item.quantity, recipeIng.quantity);
+        const cost = (usedQty * price).toFixed(2);
         
         consumedIngredients.push({
           name: recipeIng.name,
-          quantity: recipeIng.quantity,
+          quantity: usedQty,
           unit: recipeIng.unit,
-          price: ingredient.avgPrice,
+          price: price,
           totalCost: parseFloat(cost)
         });
         
-        item.quantity -= recipeIng.quantity;
+        item.quantity -= usedQty;
         if (item.quantity <= 0) {
           updatedFridge.splice(fridgeIndex, 1);
         }
@@ -143,13 +181,15 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
     });
     localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
     
-    // Save recipe as completed with consumed ingredients
-    const cost = calculateRecipeCost(recipe, ingredients);
+    // Save recipe as completed with consumed ingredients (savings = spotřebované z lednice)
+    const savedAmount = consumedIngredients.reduce((sum, ing) => sum + ing.totalCost, 0).toFixed(2);
+    const { missingCost } = computeCosts(recipe);
     const saved = JSON.parse(localStorage.getItem('saved_recipes') || '[]');
     saved.push({ 
       name: recipe.name,
       savedAt: new Date().toISOString(),
-      cost: cost,
+      savedAmount: parseFloat(savedAmount),
+      missingCost: parseFloat(missingCost),
       consumedIngredients: consumedIngredients
     });
     localStorage.setItem('saved_recipes', JSON.stringify(saved));
@@ -206,10 +246,15 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
           </div>
 
           <div className="recipe-cost">
-            <h4>
-              Odhadovaná cena: {loadingPrice ? 'Načítám...' : (currentRecipePrice || calculateRecipeCost(selectedRecipe, ingredients))} Kč
-              {useGeminiPricing && !loadingPrice && <span style={{ fontSize: '12px', color: '#666', marginLeft: '8px' }}>(odhad Gemini AI)</span>}
-            </h4>
+            {(() => {
+              const { missingCost, savedCost } = computeCosts(selectedRecipe);
+              return (
+                <div>
+                  <h4>Zbývající cena (co chybí): {missingCost} Kč</h4>
+                  <p style={{ marginTop: '4px', color: '#2c3e50', fontWeight: 600 }}>Ušetříš z lednice: {savedCost} Kč</p>
+                </div>
+              );
+            })()}
           </div>
 
           <button onClick={() => handleCompleteRecipe(selectedRecipe)} className="complete-btn">Hotovo - Uložit recept</button>

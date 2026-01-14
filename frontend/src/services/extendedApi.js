@@ -59,7 +59,7 @@ export const extendedRecipes = [
     ingredients: [
       { name: "Hovězí maso", quantity: 600, unit: "g" },
       { name: "Cibule", quantity: 3, unit: "ks" },
-      { name: "Paprika", quantity: 2, unit: "ks" },
+      { name: "Paprika", quantity: 200, unit: "g" },
       { name: "Rajčatový protlak", quantity: 200, unit: "g" },
       { name: "Olej", quantity: 50, unit: "ml" }
     ],
