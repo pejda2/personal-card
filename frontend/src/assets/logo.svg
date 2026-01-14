@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 700" fill="none">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Fridge body -->
+  <rect x="150" y="100" width="300" height="500" rx="30" fill="#E8F4F8" stroke="#1E3A5F" stroke-width="8"/>
+  
+  <!-- Fridge door -->
+  <rect x="160" y="110" width="130" height="280" rx="20" fill="#D4E9F2" stroke="#1E3A5F" stroke-width="6"/>
+  
+  <!-- Door handle -->
+  <ellipse cx="180" cy="250" rx="15" ry="40" fill="#C0D8E8" stroke="#1E3A5F" stroke-width="4"/>
+  
+  <!-- Golden glow from inside -->
+  <rect x="300" y="140" width="130" height="240" rx="15" fill="url(#goldGradient)" opacity="0.9"/>
+  
+  <!-- Shelves inside -->
+  <line x1="310" y1="200" x2="420" y2="200" stroke="#FFA500" stroke-width="3"/>
+  <line x1="310" y1="280" x2="420" y2="280" stroke="#FFA500" stroke-width="3"/>
+  
+  <!-- Items on shelves (golden bottles/items) -->
+  <rect x="320" y="160" width="25" height="35" rx="5" fill="#FFD700" opacity="0.8"/>
+  <rect x="355" y="165" width="20" height="30" rx="3" fill="#FFA500" opacity="0.8"/>
+  <rect x="385" y="170" width="25" height="25" rx="5" fill="#FF8C00" opacity="0.8"/>
+  
+  <ellipse cx="335" cy="240" rx="20" ry="25" fill="#FFD700" opacity="0.8"/>
+  <ellipse cx="370" cy="235" rx="25" ry="30" fill="#FFA500" opacity="0.8"/>
+  
+  <rect x="320" y="295" width="30" height="40" rx="8" fill="#FFD700" opacity="0.8"/>
+  <rect x="360" y="300" width="25" height="35" rx="5" fill="#FFA500" opacity="0.8"/>
+  <rect x="395" y="305" width="20" height="30" rx="4" fill="#FF8C00" opacity="0.8"/>
+  
+  <!-- Sparkles -->
+  <circle cx="450" cy="200" r="8" fill="#FFD700" opacity="0.6"/>
+  <circle cx="470" cy="250" r="6" fill="#FFA500" opacity="0.7"/>
+  <circle cx="465" cy="300" r="7" fill="#FFD700" opacity="0.6"/>
+  <circle cx="480" cy="350" r="5" fill="#FFA500" opacity="0.8"/>
+  
+  <!-- Light rays -->
+  <path d="M 300 250 L 500 200" stroke="#FFD700" stroke-width="2" opacity="0.4"/>
+  <path d="M 300 250 L 520 250" stroke="#FFA500" stroke-width="2" opacity="0.5"/>
+  <path d="M 300 250 L 500 300" stroke="#FFD700" stroke-width="2" opacity="0.4"/>
+</svg>

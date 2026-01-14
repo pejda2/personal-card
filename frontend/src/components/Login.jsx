@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Auth.css';
+import logo from '../assets/logo.svg';
 
 export default function Login({ onSwitchToRegister }) {
   const [email, setEmail] = useState('');
@@ -29,7 +30,9 @@ export default function Login({ onSwitchToRegister }) {
 
   return (
     <div className="auth-container">
-      <div>
+      <div className="auth-box">
+        <img src={logo} alt="Zlatá Lednice" className="auth-logo" />
+        <h1 className="app-title">Zlatá Lednice</h1>
         <h2>Přihlášení</h2>
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleLogin}>

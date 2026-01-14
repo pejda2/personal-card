@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import '../styles/Main.css';
+import logo from '../assets/logo.svg';
 
 export default function MainMenu({ onSelectMenu, onLogout }) {
   return (
     <div className="main-menu">
       <div className="menu-header">
-        <h2>Zlatá Lednice</h2>
+        <div className="header-logo-container">
+          <img src={logo} alt="Zlatá Lednice" className="menu-logo" />
+          <h2>Zlatá Lednice</h2>
+        </div>
         <button onClick={onLogout} className="logout-btn">Odhlásit</button>
       </div>
       <div className="menu-buttons">
