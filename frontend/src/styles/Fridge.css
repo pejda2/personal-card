@@ -70,7 +70,7 @@
   padding: 30px;
   border-radius: 16px;
   margin: 0 auto 30px;
-  max-width: 70%;
+  max-width: 60%;
   box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15);
   border: 1px solid rgba(255, 215, 0, 0.2);
 }
@@ -128,8 +128,10 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 12px 8px;
+  padding: 12px 8px 16px;
   border-bottom: 1px solid #e8e8e8;
+  min-height: 150px;
+  position: relative;
 }
 
 .ingredient-row:last-child {
@@ -162,12 +164,13 @@
   column-gap: 56px;
   row-gap: 16px;
   align-items: end;
-  padding: 20px;
+  padding: 16px 16px 12px;
   background: #f5f5f5;
   border-radius: 8px;
   border-left: 3px solid #FFD700;
-  margin-left: 32px;
-  margin-top: 12px;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .input-wrapper {
@@ -199,7 +202,7 @@
 
 .ingredient-qty {
   text-align: center;
-  min-width: 220px;
+  min-width: 260px;
 }
 
 .date-label {
@@ -342,4 +345,24 @@
 .recommend-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 25px rgba(255, 215, 0, 0.4);
+}
+
+.recommend-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 auto 20px;
+  max-width: 60%;
+}
+
+.recommend-hint {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.recommend-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  filter: grayscale(25%);
+  box-shadow: none;
 }

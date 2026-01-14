@@ -37,18 +37,21 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
 
   const getRecipeStatus = (recipe) => {
     const missingList = [];
-    const hasAllIngredients = recipe.ingredients.every(ing => {
+    let hasSomeIngredients = false;
+
+    recipe.ingredients.forEach(ing => {
       const fridgeItem = fridgeItems.find(f => f.name.toLowerCase() === ing.name.toLowerCase());
-      if (!fridgeItem || fridgeItem.quantity < ing.quantity) {
-        const missingQty = fridgeItem ? Math.max(0, ing.quantity - fridgeItem.quantity) : ing.quantity;
-        missingList.push({ ...ing, missingQty });
-        return false;
+      const availableQty = fridgeItem ? fridgeItem.quantity : 0;
+      if (availableQty > 0) {
+        hasSomeIngredients = true;
       }
-      return true;
+      if (availableQty < ing.quantity) {
+        const missingQty = ing.quantity - availableQty;
+        missingList.push({ ...ing, missingQty });
+      }
     });
-    const hasSomeIngredients = recipe.ingredients.some(ing =>
-      fridgeItems.some(f => f.name.toLowerCase() === ing.name.toLowerCase() && f.quantity > 0)
-    );
+
+    const hasAllIngredients = missingList.length === 0;
 
     return {
       hasAllIngredients,

@@ -94,6 +94,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
   };
 
   const canRecommend = fridge.length >= 3;
+  const recommendDisabled = !canRecommend;
 
   return (
     <div className="fridge-container">
@@ -106,6 +107,17 @@ export default function Fridge({ onBack, onSelectRecipe }) {
       </div>
 
       <div className="fridge-content">
+        <div className="recommend-bar">
+          <button
+            onClick={() => onSelectRecipe(fridge)}
+            className="recommend-btn"
+            disabled={recommendDisabled}
+          >
+            🎲 Doporučit recept
+          </button>
+          <span className="recommend-hint">Zadejte prosím alespoň 3 suroviny.</span>
+        </div>
+
         <div className="add-ingredients-section">
           <h3>Přidat suroviny</h3>
           <div className="categories-grid">
@@ -222,11 +234,6 @@ export default function Fridge({ onBack, onSelectRecipe }) {
           )}
         </div>
 
-        {canRecommend && (
-          <button onClick={() => onSelectRecipe(fridge)} className="recommend-btn">
-            🎲 Doporučit recept
-          </button>
-        )}
       </div>
     </div>
   );
