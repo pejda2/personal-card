@@ -3,23 +3,13 @@ import '../styles/Savings.css';
 import logo from '../assets/logo2.png';
 
 export default function Savings({ onBack }) {
-  const [savedRecipes, setSavedRecipes] = useState([]);
-  const [period, setPeriod] = useState('all');
-  const [statistics, setStatistics] = useState({ total_savings: 0, recipe_count: 0 });
+  const [summary, setSummary] = useState({ totalSavings: 0, totalKg: 0 });
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
-    loadSavedRecipes();
-    loadStatistics();
-  }, [period]);
-
-  const loadSavedRecipes = () => {
-    const data = localStorage.getItem('saved_recipes');
-    setSavedRecipes(data ? JSON.parse(data) : []);
-  };
-
-  const loadStatistics = () => {
     const data = localStorage.getItem('saved_recipes');
     const recipes = data ? JSON.parse(data) : [];
+
     const getSavedValue = (r) => {
       if (typeof r.savedAmount === 'number') return r.savedAmount;
       if (typeof r.cost === 'number') return r.cost;
@@ -28,18 +18,28 @@ export default function Savings({ onBack }) {
       }
       return 0;
     };
-    setStatistics({
-      total_savings: recipes.reduce((sum, r) => sum + getSavedValue(r), 0).toFixed(2),
-      recipe_count: recipes.length
-    });
-  };
 
-  const periods = [
-    { key: 'week', label: 'Tento týden' },
-    { key: 'month', label: 'Tento měsíc' },
-    { key: 'year', label: 'Tento rok' },
-    { key: 'all', label: 'Vše' }
-  ];
+    const totalSavings = recipes.reduce((sum, r) => sum + getSavedValue(r), 0);
+
+    const flattened = recipes.flatMap(r => (r.consumedIngredients || []).map(ing => ({
+      name: ing.name,
+      quantity: ing.quantity,
+      unit: ing.unit,
+      totalCost: ing.totalCost || 0,
+      date: r.savedAt
+    })));
+
+    const totalKg = flattened
+      .filter(ing => ing.unit && ing.unit.toLowerCase() === 'g')
+      .reduce((sum, ing) => sum + (parseFloat(ing.quantity) || 0), 0) / 1000;
+
+    setSummary({
+      totalSavings: totalSavings.toFixed(2),
+      totalKg: totalKg.toFixed(2)
+    });
+
+    setItems(flattened.sort((a, b) => new Date(b.date) - new Date(a.date)));
+  }, []);
 
   return (
     <div className="savings-container">
@@ -51,64 +51,37 @@ export default function Savings({ onBack }) {
         </div>
       </div>
 
-      <div className="statistics">
-        <div className="stat-box">
-          <h3>Celkem ušetřeno</h3>
-          <p className="stat-value">{statistics.total_savings} Kč</p>
-        </div>
-        <div className="stat-box">
-          <h3>Receptů</h3>
-          <p className="stat-value">{statistics.recipe_count}</p>
-        </div>
-      </div>
-
-      <div className="period-selector">
-        {periods.map(p => (
-          <button
-            key={p.key}
-            className={`period-btn ${period === p.key ? 'active' : ''}`}
-            onClick={() => setPeriod(p.key)}
-          >
-            {p.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="saved-recipes">
-        {savedRecipes.length === 0 ? (
-          <p>Zatím jsi neušetřil nic</p>
-        ) : (
-          <div className="recipes-list">
-            {savedRecipes.map((recipe, idx) => (
-              <div key={idx} className="saved-recipe-item">
-                <h4>{recipe.name}</h4>
-                {(() => {
-                  const fallback = Array.isArray(recipe.consumedIngredients)
-                    ? recipe.consumedIngredients.reduce((s, i) => s + (i.totalCost || 0), 0)
-                    : 0;
-                  const savedValue = recipe.savedAmount ?? recipe.cost ?? fallback;
-                  const displayValue = typeof savedValue === 'number' ? savedValue.toFixed(2) : savedValue;
-                  return (
-                    <p className="total-saved">Celkem ušetřeno: <strong>{displayValue} Kč</strong></p>
-                  );
-                })()}
-                <div className="ingredients-consumed">
-                  <p className="ingredients-title">Spotřebované suroviny:</p>
-                  <ul>
-                    {recipe.consumedIngredients && recipe.consumedIngredients.map((ing, ingIdx) => (
-                      <li key={ingIdx} className="ingredient-row">
-                        <span className="ing-name">{ing.name}</span>
-                        <span className="ing-qty">{ing.quantity} {ing.unit}</span>
-                        <span className="ing-price">{ing.totalCost} Kč</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <p className="date">{new Date(recipe.savedAt).toLocaleDateString('cs-CZ')}</p>
-              </div>
-            ))}
+      <div className="savings-content">
+        <div className="summary-card">
+          <div>
+            <p className="summary-label">Celkem ušetřeno</p>
+            <p className="summary-value">{summary.totalSavings} Kč</p>
           </div>
-        )}
+          <div className="summary-divider" />
+          <div>
+            <p className="summary-label">Celkem ušetřeno (kg)</p>
+            <p className="summary-value">{summary.totalKg} kg</p>
+          </div>
+        </div>
+
+        <div className="saved-list">
+          {items.length === 0 ? (
+            <p className="empty">Zatím jsi neušetřil nic</p>
+          ) : (
+            <ul>
+              {items.map((ing, idx) => (
+                <li key={`${ing.name}-${idx}`} className="saved-item">
+                  <div className="saved-item-main">
+                    <span className="saved-name">{ing.name}</span>
+                    <span className="saved-qty">{ing.quantity} {ing.unit}</span>
+                    <span className="saved-cost">{ing.totalCost.toFixed(2)} Kč</span>
+                  </div>
+                  <span className="saved-date">{ing.date ? new Date(ing.date).toLocaleDateString('cs-CZ') : ''}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );
