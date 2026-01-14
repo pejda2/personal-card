@@ -19,18 +19,17 @@ export default function Fridge({ onBack, onSelectRecipe }) {
   const [expandedCategories, setExpandedCategories] = useState({});
   const [ingredientInputs, setIngredientInputs] = useState({});
   const [selectedIngredients, setSelectedIngredients] = useState({});
+  const [topExpanded, setTopExpanded] = useState(false);
 
   useEffect(() => {
     loadFridge();
     setIngredients(mockIngredients);
-    setExpandedCategories({
-      'Maso a uzeniny': true,
-      'Ryby': false,
-      'Mléčné výrobky': false,
-      'Zelenina': false,
-      'Ovoce': false,
-      'Koloniál a ostatní': false
-    });
+    setTopExpanded(false);
+    const collapsed = Object.keys(INGREDIENT_CATEGORIES).reduce((acc, key) => {
+      acc[key] = false;
+      return acc;
+    }, {});
+    setExpandedCategories(collapsed);
   }, []);
 
   const loadFridge = () => {
@@ -137,81 +136,90 @@ export default function Fridge({ onBack, onSelectRecipe }) {
         <div className="add-ingredients-section">
           <h3>Přidat suroviny</h3>
           {topIngredients.length > 0 && (
-            <div className="top-card">
-              <div className="category-header top-header">Nejčastěji v receptech</div>
-              <div className="category-items">
-                {topIngredients.map(ing => {
-                  const input = ingredientInputs[ing.id] || { quantity: '', expiration: '' };
-                  const isSelected = selectedIngredients[ing.id] || false;
-                  const hasItem = isFridgeContainsIngredient(ing.name);
-                  return (
-                    <div key={`top-${ing.id}`} className="ingredient-row">
-                      <div className="ingredient-row-header">
-                        <input
-                          type="checkbox"
-                          checked={isSelected}
-                          onChange={(e) => {
-                            toggleIngredient(ing.id);
-                            if (!e.target.checked) {
-                              setIngredientInputs(prev => ({
-                                ...prev,
-                                [ing.id]: { quantity: '', expiration: '' }
-                              }));
-                            }
-                          }}
-                          className="ingredient-checkbox"
-                        />
-                        <span className="ingredient-name">{ing.name}</span>
-                      </div>
+            <div className="category-card top-card">
+              <button
+                type="button"
+                className="category-header top-header"
+                onClick={() => setTopExpanded(v => !v)}
+                aria-expanded={topExpanded}
+              >
+                {topExpanded ? '▼' : '▶'} Nejčastěji v receptech
+              </button>
+              {topExpanded && (
+                <div className="category-items">
+                  {topIngredients.map(ing => {
+                    const input = ingredientInputs[ing.id] || { quantity: '', expiration: '' };
+                    const isSelected = selectedIngredients[ing.id] || false;
+                    const hasItem = isFridgeContainsIngredient(ing.name);
+                    return (
+                      <div key={`top-${ing.id}`} className="ingredient-row">
+                        <div className="ingredient-row-header">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={(e) => {
+                              toggleIngredient(ing.id);
+                              if (!e.target.checked) {
+                                setIngredientInputs(prev => ({
+                                  ...prev,
+                                  [ing.id]: { quantity: '', expiration: '' }
+                                }));
+                              }
+                            }}
+                            className="ingredient-checkbox"
+                          />
+                          <span className="ingredient-name">{ing.name}</span>
+                        </div>
 
-                      {isSelected && (
-                        <div className="ingredient-inputs">
-                          <div className="input-wrapper">
-                            <label className="date-label">Množství:</label>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        {isSelected && (
+                          <div className="ingredient-inputs">
+                            <div className="input-wrapper">
+                              <label className="date-label">Množství:</label>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <input
+                                  type="number"
+                                  placeholder="0"
+                                  value={input.quantity}
+                                  onChange={(e) => setIngredientInputs(prev => ({
+                                    ...prev,
+                                    [ing.id]: { ...input, quantity: e.target.value }
+                                  }))}
+                                  className="ingredient-qty"
+                                  min="0"
+                                  step="any"
+                                  style={{ flex: 1 }}
+                                />
+                                <span className="unit-label" style={{ marginTop: 0, fontSize: '0.95rem', fontWeight: 600 }}>{ing.unit}</span>
+                              </div>
+                            </div>
+
+                            <div className="input-wrapper">
+                              <label className="date-label">Datum expirace:</label>
                               <input
-                                type="number"
-                                placeholder="0"
-                                value={input.quantity}
+                                type="date"
+                                value={input.expiration}
                                 onChange={(e) => setIngredientInputs(prev => ({
                                   ...prev,
-                                  [ing.id]: { ...input, quantity: e.target.value }
+                                  [ing.id]: { ...input, expiration: e.target.value }
                                 }))}
-                                className="ingredient-qty"
-                                min="0"
-                                step="any"
-                                style={{ flex: 1 }}
+                                className="ingredient-date"
                               />
-                              <span className="unit-label" style={{ marginTop: 0, fontSize: '0.95rem', fontWeight: 600 }}>{ing.unit}</span>
                             </div>
-                          </div>
 
-                          <div className="input-wrapper">
-                            <label className="date-label">Datum expirace:</label>
-                            <input
-                              type="date"
-                              value={input.expiration}
-                              onChange={(e) => setIngredientInputs(prev => ({
-                                ...prev,
-                                [ing.id]: { ...input, expiration: e.target.value }
-                              }))}
-                              className="ingredient-date"
-                            />
+                            <button
+                              onClick={() => handleAddItem(ing.id, parseFloat(input.quantity) || 0, input.expiration)}
+                              className="ingredient-add-btn"
+                              disabled={!input.quantity || parseFloat(input.quantity) <= 0}
+                            >
+                              + Přidat
+                            </button>
                           </div>
-
-                          <button
-                            onClick={() => handleAddItem(ing.id, parseFloat(input.quantity) || 0, input.expiration)}
-                            className="ingredient-add-btn"
-                            disabled={!input.quantity || parseFloat(input.quantity) <= 0}
-                          >
-                            + Přidat
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
           <div className="categories-grid">
