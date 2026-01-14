@@ -59,6 +59,9 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   };
 
   const handleCompleteRecipe = (recipe) => {
+    // Prepare consumed ingredients details
+    const consumedIngredients = [];
+    
     // Consume ingredients from fridge
     let updatedFridge = [...fridgeItems];
     recipe.ingredients.forEach(recipeIng => {
@@ -67,6 +70,17 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
       );
       if (fridgeIndex !== -1) {
         const item = updatedFridge[fridgeIndex];
+        const ingredient = ingredients.find(i => i.name.toLowerCase() === recipeIng.name.toLowerCase());
+        const cost = (recipeIng.quantity * ingredient.avgPrice).toFixed(2);
+        
+        consumedIngredients.push({
+          name: recipeIng.name,
+          quantity: recipeIng.quantity,
+          unit: recipeIng.unit,
+          price: ingredient.avgPrice,
+          totalCost: parseFloat(cost)
+        });
+        
         item.quantity -= recipeIng.quantity;
         if (item.quantity <= 0) {
           updatedFridge.splice(fridgeIndex, 1);
@@ -75,13 +89,14 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
     });
     localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
     
-    // Save recipe as completed
+    // Save recipe as completed with consumed ingredients
     const cost = calculateRecipeCost(recipe, ingredients);
     const saved = JSON.parse(localStorage.getItem('saved_recipes') || '[]');
     saved.push({ 
-      ...recipe, 
+      name: recipe.name,
       savedAt: new Date().toISOString(),
-      cost: cost
+      cost: cost,
+      consumedIngredients: consumedIngredients
     });
     localStorage.setItem('saved_recipes', JSON.stringify(saved));
     

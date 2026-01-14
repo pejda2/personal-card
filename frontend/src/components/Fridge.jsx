@@ -79,9 +79,11 @@ export default function Fridge({ onBack, onSelectRecipe }) {
               min="0"
             />
             <input 
-              type="date" 
+              type="date"
+              placeholder="Datum trvanlivosti"
               value={expiration}
               onChange={(e) => setExpiration(e.target.value)}
+              title="Datum trvanlivosti"
             />
             <button onClick={handleAddItem}>Přidat</button>
           </div>
