@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
 import '../styles/Savings.css';
 
 export default function Savings({ onBack }) {
-  const { token } = useAuth();
   const [savedRecipes, setSavedRecipes] = useState([]);
   const [period, setPeriod] = useState('all');
   const [statistics, setStatistics] = useState({ total_savings: 0, recipe_count: 0 });
@@ -14,28 +11,18 @@ export default function Savings({ onBack }) {
     loadStatistics();
   }, [period]);
 
-  const loadSavedRecipes = async () => {
-    try {
-      const response = await axios.get('/api/saved-recipes', {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { period }
-      });
-      setSavedRecipes(response.data);
-    } catch (err) {
-      console.error('Error loading saved recipes:', err);
-    }
+  const loadSavedRecipes = () => {
+    const data = localStorage.getItem('saved_recipes');
+    setSavedRecipes(data ? JSON.parse(data) : []);
   };
 
-  const loadStatistics = async () => {
-    try {
-      const response = await axios.get('/api/savings', {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { period }
-      });
-      setStatistics(response.data);
-    } catch (err) {
-      console.error('Error loading statistics:', err);
-    }
+  const loadStatistics = () => {
+    const data = localStorage.getItem('saved_recipes');
+    const recipes = data ? JSON.parse(data) : [];
+    setStatistics({
+      total_savings: recipes.reduce((sum, r) => sum + (r.price || 0), 0),
+      recipe_count: recipes.length
+    });
   };
 
   const periods = [

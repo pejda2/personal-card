@@ -1,70 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
 import '../styles/Fridge.css';
+import { mockIngredients } from '../services/mockApi';
 
 export default function Fridge({ onBack, onSelectRecipe }) {
-  const { token } = useAuth();
   const [fridge, setFridge] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [selectedIngredient, setSelectedIngredient] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [expiration, setExpiration] = useState('');
-  const [cost, setCost] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     loadFridge();
-    loadIngredients();
+    setIngredients(mockIngredients);
   }, []);
 
-  const loadFridge = async () => {
-    try {
-      const response = await axios.get('/api/fridge', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setFridge(response.data);
-    } catch (err) {
-      console.error('Error loading fridge:', err);
-    }
+  const loadFridge = () => {
+    const data = localStorage.getItem('fridge_items');
+    setFridge(data ? JSON.parse(data) : []);
   };
 
-  const loadIngredients = async () => {
-    try {
-      const response = await axios.get('/api/ingredients');
-      setIngredients(response.data);
-    } catch (err) {
-      console.error('Error loading ingredients:', err);
-    }
-  };
-
-  const handleAddItem = async () => {
+  const handleAddItem = () => {
     if (!selectedIngredient || quantity <= 0) return;
 
-    try {
-      await axios.post('/api/fridge', 
-        { ingredientId: selectedIngredient, quantity, expiration, costPerUnit: cost },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setSelectedIngredient(null);
-      setQuantity(1);
-      setExpiration('');
-      setCost(0);
-      loadFridge();
-    } catch (err) {
-      console.error('Error adding item:', err);
-    }
+    const ingredient = ingredients.find(i => i.id === parseInt(selectedIngredient));
+    const newItem = {
+      id: Date.now(),
+      name: ingredient.name,
+      quantity: parseFloat(quantity),
+      unit: ingredient.unit,
+      expiration: expiration,
+      addedAt: new Date().toISOString()
+    };
+
+    const updatedFridge = [...fridge, newItem];
+    localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
+    setFridge(updatedFridge);
+    
+    setSelectedIngredient(null);
+    setQuantity(1);
+    setExpiration('');
   };
 
-  const handleDeleteItem = async (id) => {
-    try {
-      await axios.delete(`/api/fridge/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      loadFridge();
-    } catch (err) {
-      console.error('Error deleting item:', err);
-    }
+  const handleDeleteItem = (id) => {
+    const updatedFridge = fridge.filter(item => item.id !== id);
+    localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
+    setFridge(updatedFridge);
   };
 
   const canRecommend = fridge.length >= 3;

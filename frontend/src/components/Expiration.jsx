@@ -1,31 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
 import '../styles/Expiration.css';
 
 export default function Expiration({ onBack }) {
-  const { token } = useAuth();
   const [fridgeItems, setFridgeItems] = useState([]);
 
   useEffect(() => {
     loadFridge();
   }, []);
 
-  const loadFridge = async () => {
-    try {
-      const response = await axios.get('/api/fridge', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      // Seřadit podle trvanlivosti
-      const sorted = response.data.sort((a, b) => {
-        if (!a.expiration) return 1;
-        if (!b.expiration) return -1;
-        return new Date(a.expiration) - new Date(b.expiration);
-      });
-      setFridgeItems(sorted);
-    } catch (err) {
-      console.error('Error loading fridge:', err);
-    }
+  const loadFridge = () => {
+    const data = localStorage.getItem('fridge_items');
+    const items = data ? JSON.parse(data) : [];
+    const sorted = items.sort((a, b) => {
+      if (!a.expiration) return 1;
+      if (!b.expiration) return -1;
+      return new Date(a.expiration) - new Date(b.expiration);
+    });
+    setFridgeItems(sorted);
   };
 
   const isExpired = (expiration) => {

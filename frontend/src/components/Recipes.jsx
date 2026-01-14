@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import '../styles/Recipes.css';
+import { mockRecipes } from '../services/mockApi';
 
 export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   const [recipes, setRecipes] = useState([]);
@@ -8,17 +8,8 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   const [expandedCategories, setExpandedCategories] = useState({});
 
   useEffect(() => {
-    loadRecipes();
+    setRecipes(mockRecipes);
   }, []);
-
-  const loadRecipes = async () => {
-    try {
-      const response = await axios.get('/api/recipes');
-      setRecipes(response.data);
-    } catch (err) {
-      console.error('Error loading recipes:', err);
-    }
-  };
 
   const getRecipeStatus = (recipe) => {
     const fridgeIngredientNames = fridgeItems.map(item => item.name.toLowerCase());

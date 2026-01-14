@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Auth.css';
 
@@ -9,13 +8,22 @@ export default function Login({ onSwitchToRegister }) {
   const [error, setError] = useState('');
   const { login } = useAuth();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/auth/login', { email, password });
-      login(response.data.user, response.data.token);
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find(u => u.email === email && u.password === password);
+      
+      if (!user) {
+        setError('Invalid email or password');
+        return;
+      }
+      
+      const mockToken = 'mock_token_' + Date.now();
+      login({ email: user.email, username: user.username }, mockToken);
+      setError('');
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed');
+      setError('Login failed');
     }
   };
 

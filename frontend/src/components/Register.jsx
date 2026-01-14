@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Auth.css';
 
@@ -10,13 +9,25 @@ export default function Register({ onSwitchToLogin }) {
   const [error, setError] = useState('');
   const { login } = useAuth();
 
-  const handleRegister = async (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/auth/register', { email, username, password });
-      login(response.data.user, response.data.token);
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      
+      if (users.find(u => u.email === email)) {
+        setError('Email already registered');
+        return;
+      }
+      
+      const newUser = { email, username, password };
+      users.push(newUser);
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      const mockToken = 'mock_token_' + Date.now();
+      login({ email, username }, mockToken);
+      setError('');
     } catch (err) {
-      setError(err.response?.data?.error || 'Registration failed');
+      setError('Registration failed');
     }
   };
 
