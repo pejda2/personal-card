@@ -126,21 +126,23 @@ export default function Fridge({ onBack, onSelectRecipe }) {
                       const hasItem = isFridgeContainsIngredient(ing.name);
                       return (
                         <div key={ing.id} className="ingredient-row">
-                          <input
-                            type="checkbox"
-                            checked={isSelected}
-                            onChange={(e) => {
-                              toggleIngredient(ing.id);
-                              if (!e.target.checked) {
-                                setIngredientInputs(prev => ({
-                                  ...prev,
-                                  [ing.id]: { quantity: '', expiration: '' }
-                                }));
-                              }
-                            }}
-                            className="ingredient-checkbox"
-                          />
-                          <span className="ingredient-name">{ing.name}</span>
+                          <div className="ingredient-row-header">
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={(e) => {
+                                toggleIngredient(ing.id);
+                                if (!e.target.checked) {
+                                  setIngredientInputs(prev => ({
+                                    ...prev,
+                                    [ing.id]: { quantity: '', expiration: '' }
+                                  }));
+                                }
+                              }}
+                              className="ingredient-checkbox"
+                            />
+                            <span className="ingredient-name">{ing.name}</span>
+                          </div>
 
                           {isSelected && (
                             <div className="ingredient-inputs">
