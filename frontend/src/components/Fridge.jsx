@@ -40,12 +40,14 @@ export default function Fridge({ onBack, onSelectRecipe }) {
     setSelectedIngredient(null);
     setQuantity(1);
     setExpiration('');
+    setSelectedItem(null);
   };
 
   const handleDeleteItem = (id) => {
     const updatedFridge = fridge.filter(item => item.id !== id);
     localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
     setFridge(updatedFridge);
+    setSelectedItem(null);
   };
 
   const canRecommend = fridge.length >= 3;
@@ -81,14 +83,6 @@ export default function Fridge({ onBack, onSelectRecipe }) {
               value={expiration}
               onChange={(e) => setExpiration(e.target.value)}
             />
-            <input 
-              type="number" 
-              placeholder="Cena za jednotku"
-              value={cost}
-              onChange={(e) => setCost(Number(e.target.value))}
-              min="0"
-              step="0.01"
-            />
             <button onClick={handleAddItem}>Přidat</button>
           </div>
         </div>
@@ -107,8 +101,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
                   </div>
                   {selectedItem === item.id && (
                     <div className="item-details">
-                      <p>Trvanlivost: {item.expiration || 'Nespecifikováno'}</p>
-                      <p>Cena za jednotku: {item.cost_per_unit} Kč</p>
+                      <p>Trvanlivost: {item.expiration ? new Date(item.expiration).toLocaleDateString('cs-CZ') : 'Nespecifikováno'}</p>
                       <button onClick={() => handleDeleteItem(item.id)} className="delete-btn">Smazat</button>
                     </div>
                   )}
