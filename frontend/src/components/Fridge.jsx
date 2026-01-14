@@ -17,6 +17,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
   const [ingredients, setIngredients] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState({});
   const [ingredientInputs, setIngredientInputs] = useState({});
+  const [selectedIngredients, setSelectedIngredients] = useState({});
 
   useEffect(() => {
     loadFridge();
@@ -74,6 +75,13 @@ export default function Fridge({ onBack, onSelectRecipe }) {
     }));
   };
 
+  const toggleIngredient = (ingredientId) => {
+    setSelectedIngredients(prev => ({
+      ...prev,
+      [ingredientId]: !prev[ingredientId]
+    }));
+  };
+
   const getIngredientsByCategory = (category) => {
     const ids = INGREDIENT_CATEGORIES[category];
     return ingredients
@@ -114,50 +122,66 @@ export default function Fridge({ onBack, onSelectRecipe }) {
                   <div className="category-items">
                     {getIngredientsByCategory(category).map(ing => {
                       const input = ingredientInputs[ing.id] || { quantity: '', expiration: '' };
+                      const isSelected = selectedIngredients[ing.id] || false;
                       const hasItem = isFridgeContainsIngredient(ing.name);
                       return (
                         <div key={ing.id} className="ingredient-row">
                           <input
                             type="checkbox"
-                            checked={hasItem}
+                            checked={isSelected}
                             onChange={(e) => {
-                              if (!e.target.checked && hasItem) {
-                                handleDeleteItem(fridge.find(f => f.name.toLowerCase() === ing.name.toLowerCase())?.id);
+                              toggleIngredient(ing.id);
+                              if (!e.target.checked) {
+                                setIngredientInputs(prev => ({
+                                  ...prev,
+                                  [ing.id]: { quantity: '', expiration: '' }
+                                }));
                               }
                             }}
                             className="ingredient-checkbox"
                           />
                           <span className="ingredient-name">{ing.name}</span>
-                          <input
-                            type="number"
-                            placeholder="Množství"
-                            value={input.quantity}
-                            onChange={(e) => setIngredientInputs(prev => ({
-                              ...prev,
-                              [ing.id]: { ...input, quantity: e.target.value }
-                            }))}
-                            className="ingredient-qty"
-                            min="0"
-                            step="any"
-                          />
-                          <span className="unit-label">{ing.unit}</span>
-                          <input
-                            type="date"
-                            value={input.expiration}
-                            onChange={(e) => setIngredientInputs(prev => ({
-                              ...prev,
-                              [ing.id]: { ...input, expiration: e.target.value }
-                            }))}
-                            className="ingredient-date"
-                            title="Datum expirace"
-                          />
-                          <button
-                            onClick={() => handleAddItem(ing.id, parseFloat(input.quantity) || 0, input.expiration)}
-                            className="ingredient-add-btn"
-                            disabled={!input.quantity || parseFloat(input.quantity) <= 0}
-                          >
-                            +
-                          </button>
+
+                          {isSelected && (
+                            <div className="ingredient-inputs">
+                              <div className="input-wrapper">
+                                <input
+                                  type="number"
+                                  placeholder="Množství"
+                                  value={input.quantity}
+                                  onChange={(e) => setIngredientInputs(prev => ({
+                                    ...prev,
+                                    [ing.id]: { ...input, quantity: e.target.value }
+                                  }))}
+                                  className="ingredient-qty"
+                                  min="0"
+                                  step="any"
+                                />
+                                <span className="unit-label">{ing.unit}</span>
+                              </div>
+
+                              <div className="input-wrapper">
+                                <label className="date-label">Datum expirace</label>
+                                <input
+                                  type="date"
+                                  value={input.expiration}
+                                  onChange={(e) => setIngredientInputs(prev => ({
+                                    ...prev,
+                                    [ing.id]: { ...input, expiration: e.target.value }
+                                  }))}
+                                  className="ingredient-date"
+                                />
+                              </div>
+
+                              <button
+                                onClick={() => handleAddItem(ing.id, parseFloat(input.quantity) || 0, input.expiration)}
+                                className="ingredient-add-btn"
+                                disabled={!input.quantity || parseFloat(input.quantity) <= 0}
+                              >
+                                +
+                              </button>
+                            </div>
+                          )}
                         </div>
                       );
                     })}
