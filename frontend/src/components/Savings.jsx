@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Savings.css';
+import logo from '../assets/logo.png';
 
 export default function Savings({ onBack }) {
   const [savedRecipes, setSavedRecipes] = useState([]);
@@ -34,8 +35,13 @@ export default function Savings({ onBack }) {
 
   return (
     <div className="savings-container">
-      <button onClick={onBack} className="back-btn">← Zpět</button>
-      <h2>Ušetřeno</h2>
+      <div className="page-header">
+        <button onClick={onBack} className="back-btn">← Zpět</button>
+        <div className="header-logo-section">
+          <img src={logo} alt="Zlatá Lednice" className="page-logo" />
+          <h2>Ušetřeno</h2>
+        </div>
+      </div>
 
       <div className="statistics">
         <div className="stat-box">

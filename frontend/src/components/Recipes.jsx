@@ -3,6 +3,7 @@ import '../styles/Recipes.css';
 import { extendedRecipes, calculateRecipeCost } from '../services/extendedApi';
 import { mockIngredients } from '../services/mockApi';
 import { geminiService } from '../services/geminiService';
+import logo from '../assets/logo.png';
 
 export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   const [recipes, setRecipes] = useState([]);
@@ -159,16 +160,19 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
 
   return (
     <div className="recipes-container">
-      <button onClick={onBack} className="back-btn">← Zpět</button>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2>Recepty</h2>
-        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
+      <div className="page-header">
+        <button onClick={onBack} className="back-btn">← Zpět</button>
+        <div className="header-logo-section">
+          <img src={logo} alt="Zlatá Lednice" className="page-logo" />
+          <h2>Recepty</h2>
+        </div>
+        <label className="gemini-toggle">
           <input 
             type="checkbox" 
             checked={useGeminiPricing} 
             onChange={(e) => setUseGeminiPricing(e.target.checked)}
           />
-          Použít Gemini AI pro odhad cen
+          <span>Gemini AI ceny</span>
         </label>
       </div>
 

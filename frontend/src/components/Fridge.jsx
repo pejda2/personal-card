@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Fridge.css';
 import { mockIngredients } from '../services/mockApi';
+import logo from '../assets/logo.png';
 
 export default function Fridge({ onBack, onSelectRecipe }) {
   const [fridge, setFridge] = useState([]);
@@ -54,8 +55,13 @@ export default function Fridge({ onBack, onSelectRecipe }) {
 
   return (
     <div className="fridge-container">
-      <button onClick={onBack} className="back-btn">← Zpět</button>
-      <h2>Moje Lednice</h2>
+      <div className="page-header">
+        <button onClick={onBack} className="back-btn">← Zpět</button>
+        <div className="header-logo-section">
+          <img src={logo} alt="Zlatá Lednice" className="page-logo" />
+          <h2>Moje Lednice</h2>
+        </div>
+      </div>
 
       <div className="fridge-content">
         <div className="add-item">

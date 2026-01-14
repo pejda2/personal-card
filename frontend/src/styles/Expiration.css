@@ -1,57 +1,121 @@
+/* Expiration Page Styles - Bílo-zlatý design */
+
 .expiration-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #fff8e7 100%);
   padding: 40px 20px;
 }
 
-.expiration-container h2 {
-  color: white;
-  text-align: center;
-  font-size: 2rem;
-  margin: 20px 0 40px;
-}
-
-.expiration-list {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.expiration-item {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 12px;
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-left: 5px solid;
-  transition: all 0.3s;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  padding: 20px 30px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.header-logo-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  justify-content: center;
+}
+
+.page-logo {
+  width: 60px;
+  height: auto;
+}
+
+.page-header h2 {
+  font-size: 1.8rem;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  margin: 0;
+}
+
+.back-btn {
+  background: white;
+  color: #2c3e50;
+  padding: 10px 20px;
+  border: 2px solid #e8e8e8;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.back-btn:hover {
+  background: #f8f9fa;
+  border-color: #FFD700;
+  transform: translateX(-4px);
+}
+
+.expiration-list {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.expiration-item {
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .expiration-item.valid {
-  border-left-color: #4caf50;
+  background: linear-gradient(135deg, #e8f5e9 0%, #f1f8f4 100%);
+  border-color: #a5d6a7;
 }
 
 .expiration-item.expired {
-  border-left-color: #d32f2f;
-  background: #ffebee;
+  background: linear-gradient(135deg, #ffebee 0%, #fff5f5 100%);
+  border-color: #ef9a9a;
+}
+
+.expiration-item:hover {
+  transform: translateX(6px);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
 }
 
 .item-name {
-  font-weight: bold;
-  color: #333;
-  font-size: 1.1rem;
-  flex: 1;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #2c3e50;
 }
 
 .item-expiration {
-  color: #666;
-  font-size: 0.9rem;
-  text-align: right;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .expired-text {
   color: #d32f2f;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.expiration-list p {
+  text-align: center;
+  color: #999;
+  font-size: 1.1rem;
+  padding: 40px 0;
 }

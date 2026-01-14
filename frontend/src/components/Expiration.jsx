@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Expiration.css';
+import logo from '../assets/logo.png';
 
 export default function Expiration({ onBack }) {
   const [fridgeItems, setFridgeItems] = useState([]);
@@ -35,8 +36,13 @@ export default function Expiration({ onBack }) {
 
   return (
     <div className="expiration-container">
-      <button onClick={onBack} className="back-btn">← Zpět</button>
-      <h2>Trvanlivost potravin</h2>
+      <div className="page-header">
+        <button onClick={onBack} className="back-btn">← Zpět</button>
+        <div className="header-logo-section">
+          <img src={logo} alt="Zlatá Lednice" className="page-logo" />
+          <h2>Trvanlivost potravin</h2>
+        </div>
+      </div>
 
       <div className="expiration-list">
         {fridgeItems.length === 0 ? (
