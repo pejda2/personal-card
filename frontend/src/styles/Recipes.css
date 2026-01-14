@@ -70,8 +70,8 @@
 }
 
 .back-btn {
-  background: linear-gradient(135deg, #ffb347 0%, #ff7a00 100%);
-  color: #2c3e50;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #ffffff;
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
@@ -79,7 +79,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(255, 165, 0, 0.35);
+  box-shadow: 0 6px 16px rgba(255, 165, 0, 0.35);
 }
 
 .back-btn:hover {
