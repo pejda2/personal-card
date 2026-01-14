@@ -147,23 +147,27 @@ export default function Fridge({ onBack, onSelectRecipe }) {
                           {isSelected && (
                             <div className="ingredient-inputs">
                               <div className="input-wrapper">
-                                <input
-                                  type="number"
-                                  placeholder="Množství"
-                                  value={input.quantity}
-                                  onChange={(e) => setIngredientInputs(prev => ({
-                                    ...prev,
-                                    [ing.id]: { ...input, quantity: e.target.value }
-                                  }))}
-                                  className="ingredient-qty"
-                                  min="0"
-                                  step="any"
-                                />
-                                <span className="unit-label">{ing.unit}</span>
+                                <label className="date-label">Množství:</label>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  <input
+                                    type="number"
+                                    placeholder="0"
+                                    value={input.quantity}
+                                    onChange={(e) => setIngredientInputs(prev => ({
+                                      ...prev,
+                                      [ing.id]: { ...input, quantity: e.target.value }
+                                    }))}
+                                    className="ingredient-qty"
+                                    min="0"
+                                    step="any"
+                                    style={{ flex: 1 }}
+                                  />
+                                  <span className="unit-label" style={{ marginTop: 0 }}>{ing.unit}</span>
+                                </div>
                               </div>
 
                               <div className="input-wrapper">
-                                <label className="date-label">Datum expirace</label>
+                                <label className="date-label">Datum expirace:</label>
                                 <input
                                   type="date"
                                   value={input.expiration}
@@ -180,7 +184,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
                                 className="ingredient-add-btn"
                                 disabled={!input.quantity || parseFloat(input.quantity) <= 0}
                               >
-                                +
+                                + Přidat
                               </button>
                             </div>
                           )}
