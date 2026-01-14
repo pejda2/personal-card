@@ -66,7 +66,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
           >
             <option value="">Vyber surovinu</option>
             {ingredients.map(ing => (
-              <option key={ing.id} value={ing.id}>{ing.name}</option>
+              <option key={ing.id} value={ing.id}>{ing.name} ({ing.unit})</option>
             ))}
           </select>
 

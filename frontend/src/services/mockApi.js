@@ -10,7 +10,8 @@ export const mockRecipes = [
       { name: "Kuřecí prso", quantity: 2, unit: "ks" },
       { name: "Máslo", quantity: 2, unit: "lžíce" },
       { name: "Sůl", quantity: 1, unit: "lžička" }
-    ]
+    ],
+    instructions: "1. Umyjte a osušte kuřecí prsa.\n2. Rozpusťte máslo v pánvi na středním ohni.\n3. Vložte kuřecí prsa a smažte 8-10 minut z každé strany.\n4. Osolte a opepřete dle chuti.\n5. Servírujte se zeleninou."
   },
   {
     id: 2,
@@ -22,7 +23,8 @@ export const mockRecipes = [
       { name: "Těstoviny", quantity: 400, unit: "g" },
       { name: "Slanina", quantity: 200, unit: "g" },
       { name: "Vejce", quantity: 3, unit: "ks" }
-    ]
+    ],
+    instructions: "1. Uveďte vodu k varu v hrnci se solí.\n2. Vložte těstoviny a vařte podle návodu na balení.\n3. Nakrájejte slaninu a opečte ji v pánvi.\n4. Vmíchejte vejce do hotových těstovin.\n5. Přidejte opečenou slaninu a důkladně promíchejte.\n6. Servírujte ihned."
   },
   {
     id: 3,
@@ -34,7 +36,8 @@ export const mockRecipes = [
       { name: "Vejce", quantity: 3, unit: "ks" },
       { name: "Sýr", quantity: 100, unit: "g" },
       { name: "Máslo", quantity: 1, unit: "lžíce" }
-    ]
+    ],
+    instructions: "1. Rozpazte máslo v pánvi na středním ohni.\n2. Rozšlehejte vejce se solí a pepřem.\n3. Vlijte vejce do pánve.\n4. Jakmile vejce částečně vykrvácí, posypte sýrem.\n5. Přeložte na polovinu a servírujte."
   },
   {
     id: 4,
@@ -47,7 +50,8 @@ export const mockRecipes = [
       { name: "Vejce", quantity: 4, unit: "ks" },
       { name: "Cukr", quantity: 150, unit: "g" },
       { name: "Mouka", quantity: 150, unit: "g" }
-    ]
+    ],
+    instructions: "1. Rozpusťte čokoládu na vodní lázni.\n2. Oddělte vaječné žloutky od bílků.\n3. Sbijte bílky s cukrem do mraky.\n4. Vmíchejte rozpuštěnou čokoládu a mouku.\n5. Opatrně přidejte žloutky.\n6. Nalijte do máslem vymazané formy.\n7. Pečte na 170°C 45-50 minut.\n8. Nechte vychladnout a servírujte."
   },
   {
     id: 5,
@@ -60,7 +64,8 @@ export const mockRecipes = [
       { name: "Vejce", quantity: 2, unit: "ks" },
       { name: "Mléko", quantity: 300, unit: "ml" },
       { name: "Cukr", quantity: 2, unit: "lžíce" }
-    ]
+    ],
+    instructions: "1. Smíchejte mouku, vejce, mléko a cukr v míse.\n2. Dobře vše promíchejte na hladké těsto.\n3. Rozpusťte máslo v pánvi.\n4. Nalijte asi 50ml těsta a opékejte do světle hnědé barvy.\n5. Překlopte a opékejte druhou stranu.\n6. Servírujte se džemem, med nebo cukrem."
   },
   {
     id: 6,
@@ -72,7 +77,8 @@ export const mockRecipes = [
       { name: "Rajčata", quantity: 500, unit: "g" },
       { name: "Cibule", quantity: 1, unit: "ks" },
       { name: "Česnek", quantity: 2, unit: "stroužek" }
-    ]
+    ],
+    instructions: "1. Nakrájejte cibuli a opečte ji v oleji.\n2. Přidejte rajčata nakrájená na kostky.\n3. Vlijte 1 litr vody.\n4. Přidejte česnek.\n5. Vařte 20 minut na mírném ohni.\n6. Osolte a opepřete.\n7. Servírujte s chlebem."
   }
 ];
 

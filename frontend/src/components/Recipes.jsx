@@ -84,6 +84,11 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
             </ul>
           </div>
 
+          <div className="recipe-instructions">
+            <h4>Postup přípravy:</h4>
+            <p>{selectedRecipe.instructions}</p>
+          </div>
+
           <button onClick={() => onCompleteRecipe(selectedRecipe)} className="complete-btn">Hotovo</button>
         </div>
       ) : (
