@@ -1,8 +1,19 @@
 # Zlatá Lednice - Aplikace pro správu lednice a doporučování receptů
 
+## 🚀 Live Demo
+
+**Aplikace běží na:** https://personal-card.vercel.app
+
 ## Popis projektu
 
 Webová aplikace, která pomáhá uživatelům spravovat suroviny v jejich lednici a navrhuje recepty na základě dostupných ingrediencí. Aplikace sleduje také ušetřenou částku a trvanlivost potravin.
+
+### ✨ Nové funkce (2024)
+
+- **Gemini AI integrace** - Realistické odhady cen surovin pomocí Google Gemini API
+- **15 nových receptů** - Realistické české recepty s detailními postupy
+- **Realistické ceny** - Aktualizované ceny surovin podle českého trhu
+- **Detailní úspory** - Sledování spotřebovaných surovin s cenou za kus
 
 ## Struktura projektu
 
@@ -100,12 +111,37 @@ cd frontend
 npm install
 ```
 
-3. Spusť vývojový server:
+3. Vytvoř `.env` soubor s Gemini API klíčem:
+```bash
+VITE_GEMINI_API_KEY=tvuj_gemini_api_klic
+```
+
+4. Spusť vývojový server:
 ```bash
 npm run dev
 ```
 
 Aplikace běží na `http://localhost:3000`
+
+## 🤖 Gemini AI Integrace
+
+Aplikace nyní používá Google Gemini API pro:
+- **Realistické odhady cen** - Gemini poskytuje aktuální ceny surovin podle českého trhu
+- **Generování receptů** - (připraveno pro budoucí implementaci)
+
+### Nastavení Gemini API
+
+Pro lokální vývoj vytvoř soubor `frontend/.env`:
+```
+VITE_GEMINI_API_KEY=tvuj_api_klic
+```
+
+Pro Vercel deployment:
+1. Přejdi na Vercel Dashboard → Settings → Environment Variables
+2. Přidej: `VITE_GEMINI_API_KEY` s tvým API klíčem
+3. Redeploy aplikaci
+
+Více informací v [GEMINI_SETUP.md](GEMINI_SETUP.md)
 
 ## Funkce aplikace
 
@@ -127,14 +163,17 @@ Aplikace běží na `http://localhost:3000`
   - Recepty do 15 minut
   - Recepty, kde máš všechny suroviny
 - Tlačítko pro náhodný recept
+- **Gemini AI odhad cen** - Zapni checkbox pro realistické ceny z AI
 - Detailní pohled na recept s:
   - Časem přípravy
   - Seznamem surovin (které máš/nemáš)
-  - Orientační cenou
+  - Orientační cenou (lokální DB nebo Gemini AI)
+  - Postupem přípravy
   - Tlačítko "Hotovo" pro uložení
 
 ### 4. Ušetřeno
 - Přehled ušetřených peněz
+- **Detailní rozpad** - Ukazuje každou spotřebovanou surovinu s cenou
 - Filtrování podle období:
   - Tento týden
   - Tento měsíc
