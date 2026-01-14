@@ -65,11 +65,11 @@ export default function Savings({ onBack }) {
           <p>Zatím jsi neušetřil nic</p>
         ) : (
           <div className="recipes-list">
-            {savedRecipes.map(recipe => (
-              <div key={recipe.id} className="saved-recipe-item">
-                <h4>{recipe.recipe_id}</h4>
-                <p>Ušetřeno: {recipe.total_cost} Kč</p>
-                <p className="date">{new Date(recipe.saved_date).toLocaleDateString('cs-CZ')}</p>
+            {savedRecipes.map((recipe, idx) => (
+              <div key={idx} className="saved-recipe-item">
+                <h4>{recipe.name}</h4>
+                <p>Cena: {recipe.cost} Kč</p>
+                <p className="date">{new Date(recipe.savedAt).toLocaleDateString('cs-CZ')}</p>
               </div>
             ))}
           </div>

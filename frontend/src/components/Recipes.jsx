@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Recipes.css';
-import { mockRecipes } from '../services/mockApi';
+import { extendedRecipes, calculateRecipeCost } from '../services/extendedApi';
+import { mockIngredients } from '../services/mockApi';
 
 export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [expandedCategories, setExpandedCategories] = useState({});
+  const [ingredients, setIngredients] = useState([]);
 
   useEffect(() => {
-    setRecipes(mockRecipes);
+    setRecipes(extendedRecipes);
+    setIngredients(mockIngredients);
   }, []);
 
   const getRecipeStatus = (recipe) => {
@@ -55,6 +58,37 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
     setSelectedRecipe(randomRecipe);
   };
 
+  const handleCompleteRecipe = (recipe) => {
+    // Consume ingredients from fridge
+    let updatedFridge = [...fridgeItems];
+    recipe.ingredients.forEach(recipeIng => {
+      const fridgeIndex = updatedFridge.findIndex(
+        item => item.name.toLowerCase() === recipeIng.name.toLowerCase()
+      );
+      if (fridgeIndex !== -1) {
+        const item = updatedFridge[fridgeIndex];
+        item.quantity -= recipeIng.quantity;
+        if (item.quantity <= 0) {
+          updatedFridge.splice(fridgeIndex, 1);
+        }
+      }
+    });
+    localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
+    
+    // Save recipe as completed
+    const cost = calculateRecipeCost(recipe, ingredients);
+    const saved = JSON.parse(localStorage.getItem('saved_recipes') || '[]');
+    saved.push({ 
+      ...recipe, 
+      savedAt: new Date().toISOString(),
+      cost: cost
+    });
+    localStorage.setItem('saved_recipes', JSON.stringify(saved));
+    
+    setSelectedRecipe(null);
+    onCompleteRecipe(recipe);
+  };
+
   return (
     <div className="recipes-container">
       <button onClick={onBack} className="back-btn">← Zpět</button>
@@ -89,7 +123,11 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
             <p>{selectedRecipe.instructions}</p>
           </div>
 
-          <button onClick={() => onCompleteRecipe(selectedRecipe)} className="complete-btn">Hotovo</button>
+          <div className="recipe-cost">
+            <h4>Odhadovaná cena: {calculateRecipeCost(selectedRecipe, ingredients)} Kč</h4>
+          </div>
+
+          <button onClick={() => handleCompleteRecipe(selectedRecipe)} className="complete-btn">Hotovo - Uložit recept</button>
         </div>
       ) : (
         <div className="recipes-menu">
