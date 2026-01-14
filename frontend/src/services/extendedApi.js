@@ -1,4 +1,5 @@
-// Extended mock recipes - realistic recipes
+// Extended mock recipes - realistic Czech recipes without basic spices
+
 export const extendedRecipes = [
   {
     id: 1,
@@ -7,11 +8,9 @@ export const extendedRecipes = [
     category: "salty",
     ingredients: [
       { name: "Kuřecí prso", quantity: 400, unit: "g" },
-      { name: "Máslo", quantity: 50, unit: "g" },
-      { name: "Sůl", quantity: 5, unit: "g" },
-      { name: "Pepř", quantity: 2, unit: "g" }
+      { name: "Máslo", quantity: 50, unit: "g" }
     ],
-    instructions: "1. Kuřecí prsa omyjte a osušte.\n2. Osolte a opepřete.\n3. Na pánvi rozehřejte máslo.\n4. Smažte prsa 8-10 minut z každé strany.\n5. Servírujte s přílohou."
+    instructions: "1. Kuřecí prsa omyjte a osušte.\n2. Na pánvi rozehřejte máslo.\n3. Smažte prsa 8-10 minut z každé strany do zlatova.\n4. Servírujte s přílohou."
   },
   {
     id: 2,
@@ -19,73 +18,160 @@ export const extendedRecipes = [
     time: 20,
     category: "salty",
     ingredients: [
-      { name: "Těstoviny", quantity: 400, unit: "g" },
+      { name: "Špagety", quantity: 400, unit: "g" },
       { name: "Slanina", quantity: 200, unit: "g" },
       { name: "Vejce", quantity: 3, unit: "ks" },
-      { name: "Sýr", quantity: 100, unit: "g" },
-      { name: "Pepř", quantity: 3, unit: "g" }
+      { name: "Parmazán", quantity: 100, unit: "g" }
     ],
-    instructions: "1. Uvařte špagety al dente.\n2. Osmažte nakrájenou slaninu.\n3. Rozšlehejte vejce se strouhaným sýrem.\n4. Smíchejte horké špagety s vejci a slaninou.\n5. Opepřete a servírujte."
+    instructions: "1. Uvařte špagety al dente.\n2. Osmažte nakrájenou slaninu dozlatova.\n3. Rozšlehejte vejce se strouhaným parmazánem.\n4. Smíchejte horké špagety s vejci a slaninou.\n5. Servírujte ihned."
   },
   {
     id: 3,
-    name: "Bramborová polévka",
-    time: 35,
-    category: "salty",
-    ingredients: [
-      { name: "Brambory", quantity: 600, unit: "g" },
-      { name: "Cibule", quantity: 1, unit: "ks" },
-      { name: "Mrkev", quantity: 150, unit: "g" },
-      { name: "Celer", quantity: 100, unit: "g" },
-      { name: "Sůl", quantity: 10, unit: "g" },
-      { name: "Pepř", quantity: 3, unit: "g" }
-    ],
-    instructions: "1. Nakrájejte zeleninu na kostky.\n2. Osmažte cibuli na oleji.\n3. Přidejte brambory, mrkev a celer.\n4. Zalijte 1.5 litrem vody.\n5. Vařte 25 minut.\n6. Osolte, opepřete a servírujte."
-  },
-  {
-    id: 4,
     name: "Smažená vejce se slaninou",
     time: 10,
     category: "salty",
     ingredients: [
       { name: "Vejce", quantity: 3, unit: "ks" },
       { name: "Slanina", quantity: 100, unit: "g" },
-      { name: "Sůl", quantity: 3, unit: "g" },
-      { name: "Pepř", quantity: 2, unit: "g" }
+      { name: "Máslo", quantity: 20, unit: "g" }
     ],
-    instructions: "1. Osmažte nakrájenou slaninu.\n2. Rozbijte vejce na pánev.\n3. Smažte do požadované konzistence.\n4. Osolte, opepřete a servírujte."
+    instructions: "1. Osmažte nakrájenou slaninu na pánvi.\n2. Přidejte máslo.\n3. Rozklepněte vejce na pánev.\n4. Smažte do požadované konzistence.\n5. Servírujte s chlebem."
+  },
+  {
+    id: 4,
+    name: "Vepřový řízek",
+    time: 20,
+    category: "salty",
+    ingredients: [
+      { name: "Vepřové kotlety", quantity: 400, unit: "g" },
+      { name: "Vejce", quantity: 2, unit: "ks" },
+      { name: "Mouka", quantity: 100, unit: "g" },
+      { name: "Chléb", quantity: 150, unit: "g" },
+      { name: "Olej", quantity: 100, unit: "ml" }
+    ],
+    instructions: "1. Naklepejte kotlety na tenko.\n2. Obalte v mouce, vejci a strouhance.\n3. Smažte na rozpáleném oleji dozlatova z obou stran.\n4. Nechte okapat na papírové utěrce.\n5. Servírujte s bramborovou přílohou."
   },
   {
     id: 5,
-    name: "Rajská omáčka s těstovinami",
-    time: 30,
+    name: "Hovězí guláš",
+    time: 90,
     category: "salty",
     ingredients: [
+      { name: "Hovězí maso", quantity: 600, unit: "g" },
+      { name: "Cibule", quantity: 3, unit: "ks" },
+      { name: "Paprika", quantity: 2, unit: "ks" },
+      { name: "Rajčatový protlak", quantity: 200, unit: "g" },
+      { name: "Olej", quantity: 50, unit: "ml" }
+    ],
+    instructions: "1. Nakrájejte maso na kostky.\n2. Osmažte cibuli na oleji.\n3. Přidejte maso a opečte.\n4. Přidejte protlak a nakrájenou papriku.\n5. Zalijte vodou a duste 60-70 minut.\n6. Servírujte s knedlíky."
+  },
+  {
+    id: 6,
+    name: "Kuřecí nugetky",
+    time: 25,
+    category: "salty",
+    ingredients: [
+      { name: "Kuřecí prso", quantity: 500, unit: "g" },
+      { name: "Vejce", quantity: 2, unit: "ks" },
+      { name: "Mouka", quantity: 100, unit: "g" },
+      { name: "Chléb", quantity: 150, unit: "g" },
+      { name: "Olej", quantity: 100, unit: "ml" }
+    ],
+    instructions: "1. Nakrájejte kuřecí prsa na kousky.\n2. Obalte v mouce, vejci a strouhance.\n3. Smažte na oleji dozlatova.\n4. Nechte okapat.\n5. Servírujte s kečupem."
+  },
+  {
+    id: 7,
+    name: "Špagety s rajčatovou omáčkou",
+    time: 25,
+    category: "salty",
+    ingredients: [
+      { name: "Špagety", quantity: 400, unit: "g" },
       { name: "Rajčata", quantity: 500, unit: "g" },
-      { name: "Těstoviny", quantity: 400, unit: "g" },
       { name: "Česnek", quantity: 3, unit: "stroužek" },
       { name: "Cibule", quantity: 1, unit: "ks" },
       { name: "Olej", quantity: 50, unit: "ml" }
     ],
-    instructions: "1. Osmažte nakrájenou cibuli a česnek.\n2. Přidejte nakrájená rajčata.\n3. Vařte 20 minut.\n4. Uvařte těstoviny.\n5. Smíchejte s omáčkou a servírujte."
+    instructions: "1. Uvařte špagety al dente.\n2. Osmažte nakrájenou cibuli a česnek.\n3. Přidejte nakrájená rajčata.\n4. Duste 15 minut.\n5. Servírujte se špagetami."
   },
   {
-    id: 6,
-    name: "Palačinky",
-    time: 25,
-    category: "sweet",
+    id: 8,
+    name: "Smažené ryby",
+    time: 20,
+    category: "salty",
     ingredients: [
-      { name: "Mouka", quantity: 250, unit: "g" },
+      { name: "Losos", quantity: 400, unit: "g" },
+      { name: "Mouka", quantity: 80, unit: "g" },
       { name: "Vejce", quantity: 2, unit: "ks" },
-      { name: "Mléko", quantity: 400, unit: "ml" },
-      { name: "Cukr", quantity: 30, unit: "g" },
-      { name: "Sůl", quantity: 2, unit: "g" },
-      { name: "Olej", quantity: 50, unit: "ml" }
+      { name: "Olej", quantity: 80, unit: "ml" },
+      { name: "Citron", quantity: 1, unit: "ks" }
     ],
-    instructions: "1. Smíchejte mouku, vejce, mléko, cukr a sůl.\n2. Nechte těsto 15 minut odpočinout.\n3. Na pánvi rozehřejte olej.\n4. Nalijte těsto a smažte do zlatova.\n5. Podávejte s džemem nebo medem."
+    instructions: "1. Nakrájejte lososa na porce.\n2. Obalte v mouce a vejci.\n3. Smažte na oleji z obou stran.\n4. Servírujte s citrónem a bramborami."
   },
   {
-    id: 7,
+    id: 9,
+    name: "Mleté maso s rýží",
+    time: 30,
+    category: "salty",
+    ingredients: [
+      { name: "Mleté maso", quantity: 500, unit: "g" },
+      { name: "Rýže", quantity: 300, unit: "g" },
+      { name: "Cibule", quantity: 2, unit: "ks" },
+      { name: "Česnek", quantity: 2, unit: "stroužek" },
+      { name: "Olej", quantity: 40, unit: "ml" }
+    ],
+    instructions: "1. Uvařte rýži podle návodu.\n2. Osmažte cibuli a česnek.\n3. Přidejte mleté maso a opečte.\n4. Smíchejte s uvařenou rýží.\n5. Servírujte teplé."
+  },
+  {
+    id: 10,
+    name: "Grilované klobásy",
+    time: 15,
+    category: "salty",
+    ingredients: [
+      { name: "Klobása", quantity: 400, unit: "g" },
+      { name: "Hořčice", quantity: 50, unit: "ml" },
+      { name: "Houska", quantity: 2, unit: "ks" }
+    ],
+    instructions: "1. Grilujte klobásy na pánvi nebo grilu.\n2. Opečte housky.\n3. Servírujte s hořčicí."
+  },
+  {
+    id: 11,
+    name: "Kuřecí stehna pečená",
+    time: 45,
+    category: "salty",
+    ingredients: [
+      { name: "Kuřecí stehno", quantity: 600, unit: "g" },
+      { name: "Olej", quantity: 40, unit: "ml" },
+      { name: "Česnek", quantity: 4, unit: "stroužek" }
+    ],
+    instructions: "1. Stehna potřete olejem a česnekem.\n2. Dejte do trouby na 180°C.\n3. Pečte 40 minut.\n4. Servírujte s pečenými brambory."
+  },
+  {
+    id: 12,
+    name: "Vepřová krkovice na grilu",
+    time: 30,
+    category: "salty",
+    ingredients: [
+      { name: "Vepřová krkovice", quantity: 600, unit: "g" },
+      { name: "Olej", quantity: 30, unit: "ml" },
+      { name: "Česnek", quantity: 3, unit: "stroužek" }
+    ],
+    instructions: "1. Nakrájejte krkovici na steaky.\n2. Potřete olejem a česnekem.\n3. Grilujte 6-8 minut z každé strany.\n4. Servírujte se zeleninovým salátem."
+  },
+  {
+    id: 13,
+    name: "Těstoviny se sýrem",
+    time: 15,
+    category: "salty",
+    ingredients: [
+      { name: "Těstoviny", quantity: 400, unit: "g" },
+      { name: "Sýr", quantity: 150, unit: "g" },
+      { name: "Máslo", quantity: 40, unit: "g" },
+      { name: "Mléko", quantity: 100, unit: "ml" }
+    ],
+    instructions: "1. Uvařte těstoviny al dente.\n2. Rozehřejte máslo a mléko.\n3. Přidejte nastrouhaný sýr.\n4. Smíchejte s těstovinami.\n5. Servírujte teplé."
+  },
+  {
+    id: 14,
     name: "Čokoládový dort",
     time: 60,
     category: "sweet",
@@ -96,204 +182,111 @@ export const extendedRecipes = [
       { name: "Cukr", quantity: 180, unit: "g" },
       { name: "Mouka", quantity: 120, unit: "g" }
     ],
-    instructions: "1. Rozpusťte čokoládu s máslem.\n2. Oddělte žloutky od bílků.\n3. Žloutky vyšlehejte s cukrem.\n4. Vmíchejte čokoládu a mouku.\n5. Přidejte vyšlehaný sníh.\n6. Pečte 45 minut na 180°C."
+    instructions: "1. Rozpusťte čokoládu s máslem.\n2. Vmíchejte cukr a vejce.\n3. Přidejte mouku.\n4. Nalijte do formy.\n5. Pečte na 170°C 45 minut."
   },
   {
-    id: 8,
+    id: 15,
     name: "Jablečný koláč",
-    time: 55,
+    time: 50,
     category: "sweet",
     ingredients: [
       { name: "Jablko", quantity: 4, unit: "ks" },
       { name: "Mouka", quantity: 300, unit: "g" },
       { name: "Cukr", quantity: 150, unit: "g" },
       { name: "Vejce", quantity: 2, unit: "ks" },
-      { name: "Máslo", quantity: 100, unit: "g" },
-      { name: "Skořice", quantity: 5, unit: "g" }
+      { name: "Máslo", quantity: 100, unit: "g" }
     ],
-    instructions: "1. Nakrájejte jablka na plátky.\n2. Vyšlehejte máslo s cukrem.\n3. Přidejte vejce a mouku.\n4. Vlijte do formy.\n5. Navrch rozložte jablka a posypejte skořicí.\n6. Pečte 45 minut na 180°C."
+    instructions: "1. Smíchejte mouku, cukr, vejce a máslo.\n2. Dejte těsto do formy.\n3. Nakrájejte jablka a položte na těsto.\n4. Pečte na 180°C 40 minut.\n5. Servírujte teplý nebo studený."
   },
   {
-    id: 9,
-    name: "Smažený sýr s hranolky",
-    time: 30,
-    category: "salty",
+    id: 16,
+    name: "Palačinky",
+    time: 20,
+    category: "sweet",
     ingredients: [
-      { name: "Sýr", quantity: 400, unit: "g" },
-      { name: "Mouka", quantity: 100, unit: "g" },
+      { name: "Mouka", quantity: 250, unit: "g" },
       { name: "Vejce", quantity: 2, unit: "ks" },
-      { name: "Brambory", quantity: 600, unit: "g" },
-      { name: "Olej", quantity: 500, unit: "ml" }
+      { name: "Mléko", quantity: 400, unit: "ml" },
+      { name: "Cukr", quantity: 30, unit: "g" },
+      { name: "Máslo", quantity: 30, unit: "g" }
     ],
-    instructions: "1. Nakrájejte brambory na hranolky.\n2. Obalte sýr v mouce, vejci a strouhance.\n3. Smažte sýr i hranolky ve fritéze.\n4. Servírujte s tatarskou omáčkou."
+    instructions: "1. Smíchejte všechny ingredience na hladké těsto.\n2. Rozehřejte pánev s máslem.\n3. Nalijte tenkou vrstvu těsta.\n4. Opékejte z obou stran.\n5. Servírujte s džemem nebo čokoládou."
   },
   {
-    id: 10,
-    name: "Guláš",
-    time: 90,
-    category: "salty",
+    id: 17,
+    name: "Banánové smoothie",
+    time: 5,
+    category: "sweet",
     ingredients: [
-      { name: "Kuřecí prso", quantity: 600, unit: "g" },
-      { name: "Cibule", quantity: 2, unit: "ks" },
-      { name: "Paprika", quantity: 20, unit: "g" },
-      { name: "Rajčata", quantity: 200, unit: "g" },
-      { name: "Česnek", quantity: 3, unit: "stroužek" }
+      { name: "Banán", quantity: 2, unit: "ks" },
+      { name: "Mléko", quantity: 300, unit: "ml" },
+      { name: "Jogurt", quantity: 150, unit: "ml" },
+      { name: "Cukr", quantity: 20, unit: "g" }
     ],
-    instructions: "1. Nakrájejte maso na kostky.\n2. Osmažte cibuli dozlatova.\n3. Přidejte maso a opečte.\n4. Přisypejte papriku a rajčata.\n5. Zalijte vodou a duste 60 minut."
+    instructions: "1. Nakrájejte banány.\n2. Vložte všechny ingredience do mixéru.\n3. Mixujte do hladka.\n4. Servírujte vychlazené."
   },
   {
-    id: 11,
-    name: "Caesar salát",
-    time: 15,
-    category: "salty",
-    ingredients: [
-      { name: "Salát", quantity: 200, unit: "g" },
-      { name: "Kuřecí prso", quantity: 200, unit: "g" },
-      { name: "Sýr", quantity: 50, unit: "g" },
-      { name: "Chlieb", quantity: 100, unit: "g" },
-      { name: "Česnek", quantity: 2, unit: "stroužek" }
-    ],
-    instructions: "1. Osmažte kuřecí prsa.\n2. Opečte chlebové kostky s česnekem.\n3. Nakrájejte salát.\n4. Smíchejte vše s dresinkem.\n5. Posypejte nastrouhaným sýrem."
-  },
-  {
-    id: 12,
-    name: "Tvarohové koláčky",
-    time: 45,
+    id: 18,
+    name: "Tvarohový koláč",
+    time: 55,
     category: "sweet",
     ingredients: [
       { name: "Tvaroh", quantity: 500, unit: "g" },
       { name: "Vejce", quantity: 3, unit: "ks" },
       { name: "Cukr", quantity: 120, unit: "g" },
-      { name: "Mouka", quantity: 200, unit: "g" },
-      { name: "Vanilka", quantity: 10, unit: "g" }
+      { name: "Mouka", quantity: 80, unit: "g" },
+      { name: "Máslo", quantity: 60, unit: "g" }
     ],
-    instructions: "1. Smíchejte tvaroh s cukrem a vejci.\n2. Přidejte mouku a vanilku.\n3. Vlijte do formiček.\n4. Pečte 35 minut na 180°C."
+    instructions: "1. Smíchejte tvaroh, vejce, cukr a mouku.\n2. Vymažte formu máslem.\n3. Nalijte těsto do formy.\n4. Pečte na 170°C 45 minut.\n5. Nechte vychladnout."
   },
   {
-    id: 13,
-    name: "Ovesná kaše",
+    id: 19,
+    name: "Jahodový dezert",
     time: 10,
     category: "sweet",
     ingredients: [
-      { name: "Mouka", quantity: 100, unit: "g" },
-      { name: "Mléko", quantity: 300, unit: "ml" },
-      { name: "Banán", quantity: 1, unit: "ks" },
-      { name: "Cukr", quantity: 20, unit: "g" }
+      { name: "Jahody", quantity: 300, unit: "g" },
+      { name: "Jogurt", quantity: 200, unit: "ml" },
+      { name: "Cukr", quantity: 40, unit: "g" }
     ],
-    instructions: "1. Uvařte ovesné vločky v mléce.\n2. Přidejte cukr.\n3. Nakrájejte banán.\n4. Servírujte s banánem navrch."
+    instructions: "1. Omyjte jahody a nakrájejte.\n2. Smíchejte s jogurtem a cukrem.\n3. Nechte vychladit v lednici.\n4. Servírujte studené."
   },
   {
-    id: 14,
-    name: "Pizza Margherita",
+    id: 20,
+    name: "Zapečené brambory se sýrem",
     time: 40,
     category: "salty",
     ingredients: [
-      { name: "Mouka", quantity: 300, unit: "g" },
-      { name: "Rajčata", quantity: 200, unit: "g" },
+      { name: "Brambory", quantity: 600, unit: "g" },
       { name: "Sýr", quantity: 200, unit: "g" },
-      { name: "Olej", quantity: 50, unit: "ml" },
-      { name: "Bylinky", quantity: 5, unit: "g" }
+      { name: "Smetana", quantity: 150, unit: "ml" },
+      { name: "Máslo", quantity: 40, unit: "g" }
     ],
-    instructions: "1. Připravte těsto z mouky, vody a oleje.\n2. Rozválejte na plech.\n3. Potřete rajčatovou omáčkou.\n4. Posypejte sýrem a bylinkami.\n5. Pečte 20 minut na 220°C."
-  },
-  {
-    id: 15,
-    name: "Bramborák",
-    time: 30,
-    category: "salty",
-    ingredients: [
-      { name: "Brambory", quantity: 800, unit: "g" },
-      { name: "Vejce", quantity: 2, unit: "ks" },
-      { name: "Mouka", quantity: 80, unit: "g" },
-      { name: "Česnek", quantity: 2, unit: "stroužek" },
-      { name: "Olej", quantity: 100, unit: "ml" }
-    ],
-    instructions: "1. Nastrouejte brambory nahrubo.\n2. Přidejte vejce, mouku a česnek.\n3. Osolte a opepřete.\n4. Smažte placky na oleji.\n5. Servírujte se zelím."
+    instructions: "1. Nakrájejte brambory na plátky.\n2. Vymažte formu máslem.\n3. Vrstvěte brambory, sýr a smetanu.\n4. Zapečte na 180°C 35 minut.\n5. Servírujte teplé."
   }
 ];
 
-// Utility function to calculate recipe cost
-export const calculateRecipeCost = (recipe, ingredients) => {
-  let totalCost = 0;
+export function calculateRecipeCost(recipe, ingredients) {
+  let total = 0;
   recipe.ingredients.forEach(recipeIng => {
     const ingredient = ingredients.find(i => i.name.toLowerCase() === recipeIng.name.toLowerCase());
     if (ingredient) {
-      let quantity = recipeIng.quantity;
-      // Convert different units if needed
-      if (recipeIng.unit === "lžíce") quantity = 15; // 1 tbsp = 15g/ml
-      if (recipeIng.unit === "lžička") quantity = 5; // 1 tsp = 5g/ml
-      totalCost += quantity * ingredient.avgPrice;
+      total += recipeIng.quantity * ingredient.avgPrice;
     }
   });
-  return Math.round(totalCost);
-};
+  return total.toFixed(2);
+}
 
 export const api = {
   async getRecipes() {
-    return Promise.resolve(extendedRecipes);
+    return { data: extendedRecipes };
   },
   
   async getIngredients() {
-    return Promise.resolve(mockIngredients);
+    return { data: [] };
   },
   
-  async getFridge() {
-    const data = localStorage.getItem('fridge_items');
-    return Promise.resolve(data ? JSON.parse(data) : []);
-  },
-  
-  async addFridgeItem(item) {
-    const fridge = await this.getFridge();
-    const newItem = { ...item, id: Date.now() };
-    fridge.push(newItem);
-    localStorage.setItem('fridge_items', JSON.stringify(fridge));
-    return Promise.resolve(newItem);
-  },
-  
-  async deleteFridgeItem(id) {
-    const fridge = await this.getFridge();
-    const filtered = fridge.filter(item => item.id !== id);
-    localStorage.setItem('fridge_items', JSON.stringify(filtered));
-    return Promise.resolve();
-  },
-  
-  async getSavedRecipes() {
-    const data = localStorage.getItem('saved_recipes');
-    return Promise.resolve(data ? JSON.parse(data) : []);
-  },
-  
-  async saveRecipe(recipe, ingredients) {
-    const saved = await this.getSavedRecipes();
-    const cost = calculateRecipeCost(recipe, ingredients);
-    saved.push({ 
-      ...recipe, 
-      savedAt: new Date().toISOString(),
-      cost: cost
-    });
-    localStorage.setItem('saved_recipes', JSON.stringify(saved));
-    return Promise.resolve();
-  },
-
-  async consumeRecipe(recipe, fridgeItems, ingredients) {
-    // Remove consumed ingredients from fridge
-    let updatedFridge = [...fridgeItems];
-    recipe.ingredients.forEach(recipeIng => {
-      const fridgeIndex = updatedFridge.findIndex(
-        item => item.name.toLowerCase() === recipeIng.name.toLowerCase()
-      );
-      if (fridgeIndex !== -1) {
-        const item = updatedFridge[fridgeIndex];
-        item.quantity -= recipeIng.quantity;
-        if (item.quantity <= 0) {
-          updatedFridge.splice(fridgeIndex, 1);
-        }
-      }
-    });
-    localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
-    
-    // Save recipe as completed
-    await this.saveRecipe(recipe, ingredients);
-    
-    return Promise.resolve();
+  async consumeRecipe(recipeId, fridgeItems) {
+    return { success: true };
   }
 };

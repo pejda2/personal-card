@@ -1,93 +1,75 @@
 // Mock data - works without backend
-export const mockRecipes = [
-  {
-    id: 1,
-    name: "Kuřecí prso na másle",
-    time: 20,
-    category: "salty",
-    price: 200,
-    ingredients: [
-      { name: "Kuřecí prso", quantity: 2, unit: "ks" },
-      { name: "Máslo", quantity: 2, unit: "lžíce" },
-      { name: "Sůl", quantity: 1, unit: "lžička" }
-    ],
-    instructions: "1. Umyjte a osušte kuřecí prsa.\n2. Rozpusťte máslo v pánvi na středním ohni.\n3. Vložte kuřecí prsa a smažte 8-10 minut z každé strany.\n4. Osolte a opepřete dle chuti.\n5. Servírujte se zeleninou."
-  },
-  {
-    id: 2,
-    name: "Těstoviny Carbonara",
-    time: 15,
-    category: "salty",
-    price: 180,
-    ingredients: [
-      { name: "Těstoviny", quantity: 400, unit: "g" },
-      { name: "Slanina", quantity: 200, unit: "g" },
-      { name: "Vejce", quantity: 3, unit: "ks" }
-    ],
-    instructions: "1. Uveďte vodu k varu v hrnci se solí.\n2. Vložte těstoviny a vařte podle návodu na balení.\n3. Nakrájejte slaninu a opečte ji v pánvi.\n4. Vmíchejte vejce do hotových těstovin.\n5. Přidejte opečenou slaninu a důkladně promíchejte.\n6. Servírujte ihned."
-  },
-  {
-    id: 3,
-    name: "Omlet se sýrem",
-    time: 10,
-    category: "salty",
-    price: 120,
-    ingredients: [
-      { name: "Vejce", quantity: 3, unit: "ks" },
-      { name: "Sýr", quantity: 100, unit: "g" },
-      { name: "Máslo", quantity: 1, unit: "lžíce" }
-    ],
-    instructions: "1. Rozpazte máslo v pánvi na středním ohni.\n2. Rozšlehejte vejce se solí a pepřem.\n3. Vlijte vejce do pánve.\n4. Jakmile vejce částečně vykrvácí, posypte sýrem.\n5. Přeložte na polovinu a servírujte."
-  },
-  {
-    id: 4,
-    name: "Čokoládový dort",
-    time: 60,
-    category: "sweet",
-    price: 200,
-    ingredients: [
-      { name: "Čokoláda", quantity: 200, unit: "g" },
-      { name: "Vejce", quantity: 4, unit: "ks" },
-      { name: "Cukr", quantity: 150, unit: "g" },
-      { name: "Mouka", quantity: 150, unit: "g" }
-    ],
-    instructions: "1. Rozpusťte čokoládu na vodní lázni.\n2. Oddělte vaječné žloutky od bílků.\n3. Sbijte bílky s cukrem do mraky.\n4. Vmíchejte rozpuštěnou čokoládu a mouku.\n5. Opatrně přidejte žloutky.\n6. Nalijte do máslem vymazané formy.\n7. Pečte na 170°C 45-50 minut.\n8. Nechte vychladnout a servírujte."
-  },
-  {
-    id: 5,
-    name: "Palačinky",
-    time: 20,
-    category: "sweet",
-    price: 100,
-    ingredients: [
-      { name: "Mouka", quantity: 200, unit: "g" },
-      { name: "Vejce", quantity: 2, unit: "ks" },
-      { name: "Mléko", quantity: 300, unit: "ml" },
-      { name: "Cukr", quantity: 2, unit: "lžíce" }
-    ],
-    instructions: "1. Smíchejte mouku, vejce, mléko a cukr v míse.\n2. Dobře vše promíchejte na hladké těsto.\n3. Rozpusťte máslo v pánvi.\n4. Nalijte asi 50ml těsta a opékejte do světle hnědé barvy.\n5. Překlopte a opékejte druhou stranu.\n6. Servírujte se džemem, med nebo cukrem."
-  },
-  {
-    id: 6,
-    name: "Rajská polévka",
-    time: 25,
-    category: "salty",
-    price: 80,
-    ingredients: [
-      { name: "Rajčata", quantity: 500, unit: "g" },
-      { name: "Cibule", quantity: 1, unit: "ks" },
-      { name: "Česnek", quantity: 2, unit: "stroužek" }
-    ],
-    instructions: "1. Nakrájejte cibuli a opečte ji v oleji.\n2. Přidejte rajčata nakrájená na kostky.\n3. Vlijte 1 litr vody.\n4. Přidejte česnek.\n5. Vařte 20 minut na mírném ohni.\n6. Osolte a opepřete.\n7. Servírujte s chlebem."
-  }
-];
 
 export const mockIngredients = [
+  // Maso a drůbež
   { id: 1, name: "Kuřecí prso", unit: "g", avgPrice: 0.15 },
-  { id: 2, name: "Máslo", unit: "g", avgPrice: 0.30 },
-  { id: 3, name: "Sůl", unit: "g", avgPrice: 0.01 },
-  { id: 4, name: "Těstoviny", unit: "g", avgPrice: 0.05 },
-  { id: 5, name: "Slanina", unit: "g", avgPrice: 0.12 },
+  { id: 2, name: "Kuřecí stehno", unit: "g", avgPrice: 0.12 },
+  { id: 3, name: "Vepřová krkovice", unit: "g", avgPrice: 0.18 },
+  { id: 4, name: "Vepřové kotlety", unit: "g", avgPrice: 0.20 },
+  { id: 5, name: "Hovězí maso", unit: "g", avgPrice: 0.25 },
+  { id: 6, name: "Mleté maso", unit: "g", avgPrice: 0.14 },
+  { id: 7, name: "Krůtí prso", unit: "g", avgPrice: 0.16 },
+  { id: 8, name: "Vepřový bůček", unit: "g", avgPrice: 0.15 },
+  { id: 9, name: "Kuřecí nugetky", unit: "g", avgPrice: 0.13 },
+  { id: 10, name: "Slanina", unit: "g", avgPrice: 0.12 },
+  { id: 11, name: "Párky", unit: "ks", avgPrice: 8 },
+  { id: 12, name: "Klobása", unit: "g", avgPrice: 0.14 },
+  
+  // Ryby
+  { id: 13, name: "Losos", unit: "g", avgPrice: 0.35 },
+  { id: 14, name: "Tuňák", unit: "g", avgPrice: 0.28 },
+  
+  // Mléčné výrobky
+  { id: 15, name: "Máslo", unit: "g", avgPrice: 0.30 },
+  { id: 16, name: "Vejce", unit: "ks", avgPrice: 6 },
+  { id: 17, name: "Sýr", unit: "g", avgPrice: 0.25 },
+  { id: 18, name: "Mléko", unit: "ml", avgPrice: 0.025 },
+  { id: 19, name: "Smetana", unit: "ml", avgPrice: 0.06 },
+  { id: 20, name: "Jogurt", unit: "ml", avgPrice: 0.03 },
+  { id: 21, name: "Tvaroh", unit: "g", avgPrice: 0.08 },
+  { id: 22, name: "Parmazán", unit: "g", avgPrice: 0.40 },
+  { id: 23, name: "Mozzarella", unit: "g", avgPrice: 0.30 },
+  
+  // Těstoviny a pečivo
+  { id: 24, name: "Těstoviny", unit: "g", avgPrice: 0.05 },
+  { id: 25, name: "Špagety", unit: "g", avgPrice: 0.05 },
+  { id: 26, name: "Rýže", unit: "g", avgPrice: 0.03 },
+  { id: 27, name: "Mouka", unit: "g", avgPrice: 0.015 },
+  { id: 28, name: "Chléb", unit: "g", avgPrice: 0.04 },
+  { id: 29, name: "Houska", unit: "ks", avgPrice: 5 },
+  
+  // Zelenina
+  { id: 30, name: "Rajčata", unit: "g", avgPrice: 0.08 },
+  { id: 31, name: "Cibule", unit: "ks", avgPrice: 8 },
+  { id: 32, name: "Česnek", unit: "stroužek", avgPrice: 2 },
+  { id: 33, name: "Paprika", unit: "ks", avgPrice: 15 },
+  { id: 34, name: "Brambory", unit: "g", avgPrice: 0.02 },
+  { id: 35, name: "Mrkev", unit: "g", avgPrice: 0.025 },
+  { id: 36, name: "Celer", unit: "g", avgPrice: 0.03 },
+  { id: 37, name: "Zelí", unit: "g", avgPrice: 0.015 },
+  { id: 38, name: "Salát", unit: "g", avgPrice: 0.12 },
+  { id: 39, name: "Okurka", unit: "ks", avgPrice: 12 },
+  { id: 40, name: "Cuketa", unit: "g", avgPrice: 0.04 },
+  { id: 41, name: "Lilek", unit: "g", avgPrice: 0.05 },
+  { id: 42, name: "Brokolice", unit: "g", avgPrice: 0.06 },
+  { id: 43, name: "Květák", unit: "g", avgPrice: 0.05 },
+  { id: 44, name: "Špenát", unit: "g", avgPrice: 0.08 },
+  
+  // Ovoce
+  { id: 45, name: "Jablko", unit: "ks", avgPrice: 12 },
+  { id: 46, name: "Banán", unit: "ks", avgPrice: 18 },
+  { id: 47, name: "Jahody", unit: "g", avgPrice: 0.40 },
+  { id: 48, name: "Citron", unit: "ks", avgPrice: 20 },
+  
+  // Ostatní
+  { id: 49, name: "Olej", unit: "ml", avgPrice: 0.04 },
+  { id: 50, name: "Cukr", unit: "g", avgPrice: 0.02 },
+  { id: 51, name: "Čokoláda", unit: "g", avgPrice: 0.35 },
+  { id: 52, name: "Kečup", unit: "ml", avgPrice: 0.025 },
+  { id: 53, name: "Hořčice", unit: "ml", avgPrice: 0.02 },
+  { id: 54, name: "Rajčatový protlak", unit: "g", avgPrice: 0.02 },
+  { id: 55, name: "Sojová omáčka", unit: "ml", avgPrice: 0.03 },
+];
   { id: 6, name: "Vejce", unit: "ks", avgPrice: 6 },
   { id: 7, name: "Sýr", unit: "g", avgPrice: 0.25 },
   { id: 8, name: "Čokoláda", unit: "g", avgPrice: 0.35 },
