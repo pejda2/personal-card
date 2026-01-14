@@ -296,21 +296,35 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
 
               {expandedCategories[category.key] && (
                 <div className="recipes-list">
-                  {getFilteredRecipes(category.key).map(recipe => (
-                    <div 
-                      key={recipe.id} 
-                      className="recipe-item"
-                      onClick={() => setSelectedRecipe(recipe)}
-                    >
-                      <div className="recipe-header">
-                        <h4>{recipe.name}</h4>
-                        <span className="time">{recipe.time} min</span>
+                  {getFilteredRecipes(category.key).map(recipe => {
+                    const status = getRecipeStatus(recipe);
+                    const haveList = recipe.ingredients
+                      .filter(ing => {
+                        const f = fridgeItems.find(item => item.name.toLowerCase() === ing.name.toLowerCase());
+                        return f && f.quantity > 0;
+                      })
+                      .map(ing => ing.name);
+                    const haveDisplay = haveList.slice(0, 3).join(', ');
+                    const haveExtra = haveList.length > 3 ? '…' : '';
+
+                    return (
+                      <div 
+                        key={recipe.id} 
+                        className="recipe-item"
+                        onClick={() => setSelectedRecipe(recipe)}
+                      >
+                        <div className="recipe-header">
+                          <h4>{recipe.name}</h4>
+                          <span className="time">{recipe.time} min</span>
+                        </div>
+                        <p className="status">
+                          {status.hasAllIngredients
+                            ? '✓ Máš vše'
+                            : `Máš ${haveList.length} (${haveDisplay}${haveExtra}) · Chybí ${status.missingCount}`}
+                        </p>
                       </div>
-                      <p className="status">
-                        {getRecipeStatus(recipe).hasAllIngredients ? '✓ Máš vše' : `${getRecipeStatus(recipe).missingCount} chybí`}
-                      </p>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
