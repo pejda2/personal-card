@@ -10,9 +10,9 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [expandedCategories, setExpandedCategories] = useState({});
   const [ingredients, setIngredients] = useState([]);
-  const [useGeminiPricing, setUseGeminiPricing] = useState(false);
+  const [useGeminiPricing] = useState(false);
   const [geminiPrices, setGeminiPrices] = useState({});
-  const [loadingPrice, setLoadingPrice] = useState(false);
+  const [loadingPrice] = useState(false);
   const [currentRecipePrice, setCurrentRecipePrice] = useState(null);
 
   useEffect(() => {
@@ -223,14 +223,6 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
           <img src={logo} alt="Zlatá Lednice" className="page-logo" />
           <h2>Recepty</h2>
         </div>
-        <label className="gemini-toggle">
-          <input 
-            type="checkbox" 
-            checked={useGeminiPricing} 
-            onChange={(e) => setUseGeminiPricing(e.target.checked)}
-          />
-          <span>Gemini AI ceny</span>
-        </label>
       </div>
 
       {selectedRecipe ? (

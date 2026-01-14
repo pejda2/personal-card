@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import '../styles/Fridge.css';
 import { mockIngredients } from '../services/mockApi';
+import { extendedRecipes } from '../services/extendedApi';
 import logo from '../assets/logo2.png';
 
 const INGREDIENT_CATEGORIES = {
@@ -96,6 +97,21 @@ export default function Fridge({ onBack, onSelectRecipe }) {
   const canRecommend = fridge.length >= 3;
   const recommendDisabled = !canRecommend;
 
+  const topIngredients = useMemo(() => {
+    const counts = {};
+    extendedRecipes.forEach(r => {
+      r.ingredients.forEach(ing => {
+        counts[ing.name] = (counts[ing.name] || 0) + 1;
+      });
+    });
+    const list = Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([name]) => ingredients.find(i => i.name.toLowerCase() === name.toLowerCase()))
+      .filter(Boolean);
+    return list;
+  }, [ingredients]);
+
   return (
     <div className="fridge-container">
       <div className="page-header">
@@ -120,6 +136,84 @@ export default function Fridge({ onBack, onSelectRecipe }) {
 
         <div className="add-ingredients-section">
           <h3>Přidat suroviny</h3>
+          {topIngredients.length > 0 && (
+            <div className="top-card">
+              <div className="category-header top-header">Nejčastěji v receptech</div>
+              <div className="category-items">
+                {topIngredients.map(ing => {
+                  const input = ingredientInputs[ing.id] || { quantity: '', expiration: '' };
+                  const isSelected = selectedIngredients[ing.id] || false;
+                  const hasItem = isFridgeContainsIngredient(ing.name);
+                  return (
+                    <div key={`top-${ing.id}`} className="ingredient-row">
+                      <div className="ingredient-row-header">
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={(e) => {
+                            toggleIngredient(ing.id);
+                            if (!e.target.checked) {
+                              setIngredientInputs(prev => ({
+                                ...prev,
+                                [ing.id]: { quantity: '', expiration: '' }
+                              }));
+                            }
+                          }}
+                          className="ingredient-checkbox"
+                        />
+                        <span className="ingredient-name">{ing.name}</span>
+                      </div>
+
+                      {isSelected && (
+                        <div className="ingredient-inputs">
+                          <div className="input-wrapper">
+                            <label className="date-label">Množství:</label>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                              <input
+                                type="number"
+                                placeholder="0"
+                                value={input.quantity}
+                                onChange={(e) => setIngredientInputs(prev => ({
+                                  ...prev,
+                                  [ing.id]: { ...input, quantity: e.target.value }
+                                }))}
+                                className="ingredient-qty"
+                                min="0"
+                                step="any"
+                                style={{ flex: 1 }}
+                              />
+                              <span className="unit-label" style={{ marginTop: 0, fontSize: '0.95rem', fontWeight: 600 }}>{ing.unit}</span>
+                            </div>
+                          </div>
+
+                          <div className="input-wrapper">
+                            <label className="date-label">Datum expirace:</label>
+                            <input
+                              type="date"
+                              value={input.expiration}
+                              onChange={(e) => setIngredientInputs(prev => ({
+                                ...prev,
+                                [ing.id]: { ...input, expiration: e.target.value }
+                              }))}
+                              className="ingredient-date"
+                            />
+                          </div>
+
+                          <button
+                            onClick={() => handleAddItem(ing.id, parseFloat(input.quantity) || 0, input.expiration)}
+                            className="ingredient-add-btn"
+                            disabled={!input.quantity || parseFloat(input.quantity) <= 0}
+                          >
+                            + Přidat
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
           <div className="categories-grid">
             {Object.keys(INGREDIENT_CATEGORIES).map(category => (
               <div key={category} className="category-card">
