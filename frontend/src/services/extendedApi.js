@@ -1,248 +1,214 @@
-// Extended mock recipes - 50+ recipes
+// Extended mock recipes - realistic recipes
 export const extendedRecipes = [
-  // Existing ones
   {
     id: 1,
-    name: "Kuřecí prso na másle",
-    time: 20,
+    name: "Kuřecí prsa na másle",
+    time: 25,
     category: "salty",
     ingredients: [
-      { name: "Kuřecí prso", quantity: 500, unit: "g" },
-      { name: "Máslo", quantity: 30, unit: "g" },
-      { name: "Sůl", quantity: 5, unit: "g" }
+      { name: "Kuřecí prso", quantity: 400, unit: "g" },
+      { name: "Máslo", quantity: 50, unit: "g" },
+      { name: "Sůl", quantity: 5, unit: "g" },
+      { name: "Pepř", quantity: 2, unit: "g" }
     ],
-    instructions: "1. Umyjte a osušzte kuřecí prsa.\n2. Rozpusťte máslo v pánvi.\n3. Smažte kuřecí prsa 8-10 minut.\n4. Osolte a podávejte."
+    instructions: "1. Kuřecí prsa omyjte a osušte.\n2. Osolte a opepřete.\n3. Na pánvi rozehřejte máslo.\n4. Smažte prsa 8-10 minut z každé strany.\n5. Servírujte s přílohou."
   },
   {
     id: 2,
-    name: "Těstoviny Carbonara",
-    time: 15,
+    name: "Špagety Carbonara",
+    time: 20,
     category: "salty",
     ingredients: [
       { name: "Těstoviny", quantity: 400, unit: "g" },
       { name: "Slanina", quantity: 200, unit: "g" },
-      { name: "Vejce", quantity: 3, unit: "ks" }
+      { name: "Vejce", quantity: 3, unit: "ks" },
+      { name: "Sýr", quantity: 100, unit: "g" },
+      { name: "Pepř", quantity: 3, unit: "g" }
     ],
-    instructions: "1. Vařte těstoviny.\n2. Opečte slaninu.\n3. Vmíchejte vejce.\n4. Promíchejte se slaninou."
+    instructions: "1. Uvařte špagety al dente.\n2. Osmažte nakrájenou slaninu.\n3. Rozšlehejte vejce se strouhaným sýrem.\n4. Smíchejte horké špagety s vejci a slaninou.\n5. Opepřete a servírujte."
   },
   {
     id: 3,
-    name: "Bezlepkový chlebek",
-    time: 45,
-    category: "salty",
-    ingredients: [
-      { name: "Mouka", quantity: 300, unit: "g" },
-      { name: "Voda", quantity: 250, unit: "ml" },
-      { name: "Sůl", quantity: 10, unit: "g" }
-    ],
-    instructions: "1. Smíchejte mouку s vodou.\n2. Přidejte sůl.\n3. Pečte 40 minut na 180°C."
-  },
-  {
-    id: 4,
     name: "Bramborová polévka",
-    time: 30,
+    time: 35,
     category: "salty",
     ingredients: [
       { name: "Brambory", quantity: 600, unit: "g" },
-      { name: "Cibule", quantity: 2, unit: "ks" },
-      { name: "Česnek", quantity: 3, unit: "stroužek" },
-      { name: "Sůl", quantity: 10, unit: "g" }
+      { name: "Cibule", quantity: 1, unit: "ks" },
+      { name: "Mrkev", quantity: 150, unit: "g" },
+      { name: "Celer", quantity: 100, unit: "g" },
+      { name: "Sůl", quantity: 10, unit: "g" },
+      { name: "Pepř", quantity: 3, unit: "g" }
     ],
-    instructions: "1. Osmahnete cibuli.\n2. Přidáte brambory.\n3. Zalijete vodou.\n4. Vařte 20 minut.\n5. Osolte a servírujte."
+    instructions: "1. Nakrájejte zeleninu na kostky.\n2. Osmažte cibuli na oleji.\n3. Přidejte brambory, mrkev a celer.\n4. Zalijte 1.5 litrem vody.\n5. Vařte 25 minut.\n6. Osolte, opepřete a servírujte."
+  },
+  {
+    id: 4,
+    name: "Smažená vejce se slaninou",
+    time: 10,
+    category: "salty",
+    ingredients: [
+      { name: "Vejce", quantity: 3, unit: "ks" },
+      { name: "Slanina", quantity: 100, unit: "g" },
+      { name: "Sůl", quantity: 3, unit: "g" },
+      { name: "Pepř", quantity: 2, unit: "g" }
+    ],
+    instructions: "1. Osmažte nakrájenou slaninu.\n2. Rozbijte vejce na pánev.\n3. Smažte do požadované konzistence.\n4. Osolte, opepřete a servírujte."
   },
   {
     id: 5,
-    name: "Drůbeží omelet",
-    time: 15,
+    name: "Rajská omáčka s těstovinami",
+    time: 30,
     category: "salty",
     ingredients: [
-      { name: "Vejce", quantity: 4, unit: "ks" },
-      { name: "Kuřecí prso", quantity: 200, unit: "g" },
-      { name: "Sůl", quantity: 5, unit: "g" }
+      { name: "Rajčata", quantity: 500, unit: "g" },
+      { name: "Těstoviny", quantity: 400, unit: "g" },
+      { name: "Česnek", quantity: 3, unit: "stroužek" },
+      { name: "Cibule", quantity: 1, unit: "ks" },
+      { name: "Olej", quantity: 50, unit: "ml" }
     ],
-    instructions: "1. Smažte kuřecí maso.\n2. Rozšlehejte vejce.\n3. Vlijte do pánve.\n4. Servírujte."
+    instructions: "1. Osmažte nakrájenou cibuli a česnek.\n2. Přidejte nakrájená rajčata.\n3. Vařte 20 minut.\n4. Uvařte těstoviny.\n5. Smíchejte s omáčkou a servírujte."
   },
   {
     id: 6,
-    name: "Zeleninová polévka",
+    name: "Palačinky",
     time: 25,
-    category: "salty",
+    category: "sweet",
     ingredients: [
-      { name: "Mrkev", quantity: 200, unit: "g" },
-      { name: "Celer", quantity: 150, unit: "g" },
-      { name: "Cibule", quantity: 1, unit: "ks" }
+      { name: "Mouka", quantity: 250, unit: "g" },
+      { name: "Vejce", quantity: 2, unit: "ks" },
+      { name: "Mléko", quantity: 400, unit: "ml" },
+      { name: "Cukr", quantity: 30, unit: "g" },
+      { name: "Sůl", quantity: 2, unit: "g" },
+      { name: "Olej", quantity: 50, unit: "ml" }
     ],
-    instructions: "1. Nakrájejte zeleninu.\n2. Smažte cibuli.\n3. Přidáte ostatní.\n4. Vařte 20 minut."
+    instructions: "1. Smíchejte mouku, vejce, mléko, cukr a sůl.\n2. Nechte těsto 15 minut odpočinout.\n3. Na pánvi rozehřejte olej.\n4. Nalijte těsto a smažte do zlatova.\n5. Podávejte s džemem nebo medem."
   },
   {
     id: 7,
-    name: "Smažené hranolky",
-    time: 20,
-    category: "salty",
+    name: "Čokoládový dort",
+    time: 60,
+    category: "sweet",
     ingredients: [
-      { name: "Brambory", quantity: 800, unit: "g" },
-      { name: "Olej", quantity: 500, unit: "ml" },
-      { name: "Sůl", quantity: 10, unit: "g" }
+      { name: "Čokoláda", quantity: 200, unit: "g" },
+      { name: "Máslo", quantity: 150, unit: "g" },
+      { name: "Vejce", quantity: 4, unit: "ks" },
+      { name: "Cukr", quantity: 180, unit: "g" },
+      { name: "Mouka", quantity: 120, unit: "g" }
     ],
-    instructions: "1. Nakrájejte brambory.\n2. Zahřejte olej.\n3. Smažte hranolky.\n4. Osolte."
+    instructions: "1. Rozpusťte čokoládu s máslem.\n2. Oddělte žloutky od bílků.\n3. Žloutky vyšlehejte s cukrem.\n4. Vmíchejte čokoládu a mouku.\n5. Přidejte vyšlehaný sníh.\n6. Pečte 45 minut na 180°C."
   },
   {
     id: 8,
-    name: "Rajská omáčka",
-    time: 20,
-    category: "salty",
+    name: "Jablečný koláč",
+    time: 55,
+    category: "sweet",
     ingredients: [
-      { name: "Rajčata", quantity: 400, unit: "g" },
-      { name: "Česnek", quantity: 3, unit: "stroužek" },
-      { name: "Olej", quantity: 50, unit: "ml" }
+      { name: "Jablko", quantity: 4, unit: "ks" },
+      { name: "Mouka", quantity: 300, unit: "g" },
+      { name: "Cukr", quantity: 150, unit: "g" },
+      { name: "Vejce", quantity: 2, unit: "ks" },
+      { name: "Máslo", quantity: 100, unit: "g" },
+      { name: "Skořice", quantity: 5, unit: "g" }
     ],
-    instructions: "1. Osmahnete česnek.\n2. Přidáte rajčata.\n3. Vařte 15 minut.\n4. Servírujte."
+    instructions: "1. Nakrájejte jablka na plátky.\n2. Vyšlehejte máslo s cukrem.\n3. Přidejte vejce a mouku.\n4. Vlijte do formy.\n5. Navrch rozložte jablka a posypejte skořicí.\n6. Pečte 45 minut na 180°C."
   },
   {
     id: 9,
-    name: "Párky v rohlíku",
-    time: 10,
+    name: "Smažený sýr s hranolky",
+    time: 30,
     category: "salty",
     ingredients: [
-      { name: "Chlieb", quantity: 200, unit: "g" },
-      { name: "Slanina", quantity: 100, unit: "g" },
-      { name: "Hořčice", quantity: 20, unit: "ml" }
+      { name: "Sýr", quantity: 400, unit: "g" },
+      { name: "Mouka", quantity: 100, unit: "g" },
+      { name: "Vejce", quantity: 2, unit: "ks" },
+      { name: "Brambory", quantity: 600, unit: "g" },
+      { name: "Olej", quantity: 500, unit: "ml" }
     ],
-    instructions: "1. Zahřejte párek.\n2. Vložte do rohlíku.\n3. Přidáte hořčici.\n4. Servírujte."
+    instructions: "1. Nakrájejte brambory na hranolky.\n2. Obalte sýr v mouce, vejci a strouhance.\n3. Smažte sýr i hranolky ve fritéze.\n4. Servírujte s tatarskou omáčkou."
   },
   {
     id: 10,
-    name: "Sýrová omáčka",
-    time: 10,
+    name: "Guláš",
+    time: 90,
     category: "salty",
     ingredients: [
-      { name: "Sýr", quantity: 200, unit: "g" },
-      { name: "Smetana", quantity: 200, unit: "ml" },
-      { name: "Máslo", quantity: 30, unit: "g" }
+      { name: "Kuřecí prso", quantity: 600, unit: "g" },
+      { name: "Cibule", quantity: 2, unit: "ks" },
+      { name: "Paprika", quantity: 20, unit: "g" },
+      { name: "Rajčata", quantity: 200, unit: "g" },
+      { name: "Česnek", quantity: 3, unit: "stroužek" }
     ],
-    instructions: "1. Rozpusťte máslo.\n2. Přidáte smetanu.\n3. Roztavte sýr.\n4. Servírujte."
+    instructions: "1. Nakrájejte maso na kostky.\n2. Osmažte cibuli dozlatova.\n3. Přidejte maso a opečte.\n4. Přisypejte papriku a rajčata.\n5. Zalijte vodou a duste 60 minut."
   },
-  // Sladké recepty
   {
     id: 11,
-    name: "Čokoládový keks",
-    time: 30,
-    category: "sweet",
+    name: "Caesar salát",
+    time: 15,
+    category: "salty",
     ingredients: [
-      { name: "Čokoláda", quantity: 100, unit: "g" },
-      { name: "Máslo", quantity: 100, unit: "g" },
-      { name: "Cukr", quantity: 100, unit: "g" },
-      { name: "Vejce", quantity: 2, unit: "ks" }
+      { name: "Salát", quantity: 200, unit: "g" },
+      { name: "Kuřecí prso", quantity: 200, unit: "g" },
+      { name: "Sýr", quantity: 50, unit: "g" },
+      { name: "Chlieb", quantity: 100, unit: "g" },
+      { name: "Česnek", quantity: 2, unit: "stroužek" }
     ],
-    instructions: "1. Rozpusťte čokoládu.\n2. Vmíchejte máslo a cukr.\n3. Přidáte vejce.\n4. Pečte 25 minut."
+    instructions: "1. Osmažte kuřecí prsa.\n2. Opečte chlebové kostky s česnekem.\n3. Nakrájejte salát.\n4. Smíchejte vše s dresinkem.\n5. Posypejte nastrouhaným sýrem."
   },
   {
     id: 12,
-    name: "Malinový koláč",
-    time: 40,
-    category: "sweet",
-    ingredients: [
-      { name: "Mouka", quantity: 250, unit: "g" },
-      { name: "Malina", quantity: 300, unit: "g" },
-      { name: "Cukr", quantity: 150, unit: "g" }
-    ],
-    instructions: "1. Připravte těsto.\n2. Vložte malinу.\n3. Pečte 35 minut na 180°C."
-  },
-  {
-    id: 13,
-    name: "Muffiny",
-    time: 30,
-    category: "sweet",
-    ingredients: [
-      { name: "Mouka", quantity: 200, unit: "g" },
-      { name: "Vejce", quantity: 3, unit: "ks" },
-      { name: "Cukr", quantity: 100, unit: "g" }
-    ],
-    instructions: "1. Smíchejte ingredience.\n2. Nalijte do forem.\n3. Pečte 25 minut na 180°C."
-  },
-  {
-    id: 14,
-    name: "Jablečný koláč",
-    time: 50,
-    category: "sweet",
-    ingredients: [
-      { name: "Jablko", quantity: 600, unit: "g" },
-      { name: "Mouka", quantity: 300, unit: "g" },
-      { name: "Cukr", quantity: 200, unit: "g" }
-    ],
-    instructions: "1. Nakrájejте jablka.\n2. Připravte těsto.\n3. Vložte jablka.\n4. Pečte 45 minut."
-  },
-  {
-    id: 15,
-    name: "Karamelový pudink",
-    time: 20,
-    category: "sweet",
-    ingredients: [
-      { name: "Mléko", quantity: 500, unit: "ml" },
-      { name: "Cukr", quantity: 100, unit: "g" },
-      { name: "Mouka", quantity: 50, unit: "g" }
-    ],
-    instructions: "1. Zahřejte mléko.\n2. Rozpusťte cukr.\n3. Přidáte mouku.\n4. Vařte do zahuštění."
-  },
-  {
-    id: 16,
-    name: "Banánový chlebek",
+    name: "Tvarohové koláčky",
     time: 45,
     category: "sweet",
     ingredients: [
-      { name: "Banán", quantity: 300, unit: "g" },
-      { name: "Mouka", quantity: 250, unit: "g" },
-      { name: "Vejce", quantity: 2, unit: "ks" }
-    ],
-    instructions: "1. Rozdmychejte banány.\n2. Smíchejte s moukou.\n3. Přidáte vejce.\n4. Pečte 40 minut."
-  },
-  {
-    id: 17,
-    name: "Tvarohový koláč",
-    time: 50,
-    category: "sweet",
-    ingredients: [
-      { name: "Tvaroh", quantity: 400, unit: "g" },
+      { name: "Tvaroh", quantity: 500, unit: "g" },
       { name: "Vejce", quantity: 3, unit: "ks" },
-      { name: "Cukr", quantity: 150, unit: "g" }
+      { name: "Cukr", quantity: 120, unit: "g" },
+      { name: "Mouka", quantity: 200, unit: "g" },
+      { name: "Vanilka", quantity: 10, unit: "g" }
     ],
-    instructions: "1. Smíchejte tvaroh s cukrem.\n2. Přidáte vejce.\n3. Nalijte na těsto.\n4. Pečte 45 minut."
+    instructions: "1. Smíchejte tvaroh s cukrem a vejci.\n2. Přidejte mouku a vanilku.\n3. Vlijte do formiček.\n4. Pečte 35 minut na 180°C."
   },
   {
-    id: 18,
-    name: "Vanilkový pudinig",
-    time: 15,
+    id: 13,
+    name: "Ovesná kaše",
+    time: 10,
     category: "sweet",
     ingredients: [
-      { name: "Mléko", quantity: 600, unit: "ml" },
-      { name: "Vanilka", quantity: 5, unit: "g" },
-      { name: "Cukr", quantity: 80, unit: "g" }
+      { name: "Mouka", quantity: 100, unit: "g" },
+      { name: "Mléko", quantity: 300, unit: "ml" },
+      { name: "Banán", quantity: 1, unit: "ks" },
+      { name: "Cukr", quantity: 20, unit: "g" }
     ],
-    instructions: "1. Zahřejte mléko.\n2. Přidáte cukr a vanilku.\n3. Nechte chladit.\n4. Servírujte."
+    instructions: "1. Uvařte ovesné vločky v mléce.\n2. Přidejte cukr.\n3. Nakrájejte banán.\n4. Servírujte s banánem navrch."
   },
   {
-    id: 19,
-    name: "Piškotový dort",
+    id: 14,
+    name: "Pizza Margherita",
     time: 40,
-    category: "sweet",
+    category: "salty",
     ingredients: [
-      { name: "Vejce", quantity: 6, unit: "ks" },
-      { name: "Cukr", quantity: 200, unit: "g" },
-      { name: "Mouka", quantity: 200, unit: "g" }
+      { name: "Mouka", quantity: 300, unit: "g" },
+      { name: "Rajčata", quantity: 200, unit: "g" },
+      { name: "Sýr", quantity: 200, unit: "g" },
+      { name: "Olej", quantity: 50, unit: "ml" },
+      { name: "Bylinky", quantity: 5, unit: "g" }
     ],
-    instructions: "1. Sbijte vejce s cukrem.\n2. Přidáte mouku.\n3. Pečte 35 minut na 180°C."
+    instructions: "1. Připravte těsto z mouky, vody a oleje.\n2. Rozválejte na plech.\n3. Potřete rajčatovou omáčkou.\n4. Posypejte sýrem a bylinkami.\n5. Pečte 20 minut na 220°C."
   },
   {
-    id: 20,
-    name: "Kokosový kostverec",
+    id: 15,
+    name: "Bramborák",
     time: 30,
-    category: "sweet",
+    category: "salty",
     ingredients: [
-      { name: "Kokos", quantity: 200, unit: "g" },
-      { name: "Kondenzované mléko", quantity: 400, unit: "g" },
-      { name: "Máslo", quantity: 100, unit: "g" }
+      { name: "Brambory", quantity: 800, unit: "g" },
+      { name: "Vejce", quantity: 2, unit: "ks" },
+      { name: "Mouka", quantity: 80, unit: "g" },
+      { name: "Česnek", quantity: 2, unit: "stroužek" },
+      { name: "Olej", quantity: 100, unit: "ml" }
     ],
-    instructions: "1. Smíchejte kokos s mlékem.\n2. Přidáte máslo.\n3. Pečte 25 minut na 180°C."
+    instructions: "1. Nastrouejte brambory nahrubo.\n2. Přidejte vejce, mouku a česnek.\n3. Osolte a opepřete.\n4. Smažte placky na oleji.\n5. Servírujte se zelím."
   }
 ];
 
