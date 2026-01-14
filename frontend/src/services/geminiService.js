@@ -1,5 +1,5 @@
 // Gemini API Service
-const GEMINI_API_KEY = 'AIzaSyA7pooPq5v7A-AJY3xDO_lcPSlZkWgndfo';
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || 'AIzaSyA7pooPq5v7A-AJY3xDO_lcPSlZkWgndfo';
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 
 export const geminiService = {
