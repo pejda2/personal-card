@@ -1,16 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Expiration.css';
 import logo from '../assets/logo2.png';
+import { useAuth } from '../context/AuthContext';
+import { supabase } from '../services/supabaseClient';
 
 export default function Expiration({ onBack }) {
+  const { user } = useAuth();
   const [fridgeItems, setFridgeItems] = useState([]);
 
   useEffect(() => {
     loadFridge();
-  }, []);
+  }, [user]);
 
-  const loadFridge = () => {
-    const data = localStorage.getItem('fridge_items');
+  const loadFridge = async () => {
+    if (supabase && user?.id) {
+      const { data, error } = await supabase
+        .from('fridge_items')
+        .select('*')
+        .eq('user_id', user.id);
+
+      if (!error) {
+        const sortedRemote = (data || []).sort((a, b) => {
+          if (!a.expiration) return 1;
+          if (!b.expiration) return -1;
+          return new Date(a.expiration) - new Date(b.expiration);
+        });
+        setFridgeItems(sortedRemote);
+        return;
+      }
+    }
+
+    const fridgeKey = user?.email ? `fridge_items_${user.email}` : 'fridge_items';
+    const data = localStorage.getItem(fridgeKey);
     const items = data ? JSON.parse(data) : [];
     const sorted = items.sort((a, b) => {
       if (!a.expiration) return 1;
