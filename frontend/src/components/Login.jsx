@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Auth.css';
 import logo from '../assets/logo2.png';
+import { supabase } from '../services/supabaseClient';
 
 export default function Login({ onSwitchToRegister }) {
   const [email, setEmail] = useState('');
@@ -11,21 +12,37 @@ export default function Login({ onSwitchToRegister }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const user = users.find(u => u.email === email && u.password === password);
-      
-      if (!user) {
-        setError('Invalid email or password');
-        return;
+    const run = async () => {
+      try {
+        if (supabase) {
+          const { data, error: authError } = await supabase.auth.signInWithPassword({
+            email,
+            password
+          });
+          if (authError || !data?.session?.user) {
+            setError('Neplatný email nebo heslo');
+            return;
+          }
+          login(data.session.user, data.session.access_token);
+          setError('');
+          return;
+        }
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => u.email === email && u.password === password);
+        if (!user) {
+          setError('Neplatný email nebo heslo');
+          return;
+        }
+        const mockToken = 'mock_token_' + Date.now();
+        login({ email: user.email, username: user.username }, mockToken);
+        setError('');
+      } catch (err) {
+        setError('Přihlášení se nezdařilo');
       }
-      
-      const mockToken = 'mock_token_' + Date.now();
-      login({ email: user.email, username: user.username }, mockToken);
-      setError('');
-    } catch (err) {
-      setError('Login failed');
-    }
+    };
+
+    run();
   };
 
   return (

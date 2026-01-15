@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useEffect, useState, useContext } from 'react';
+import { supabase } from '../services/supabaseClient';
 
 const AuthContext = createContext();
 
@@ -8,6 +9,41 @@ export const AuthProvider = ({ children }) => {
     return data ? JSON.parse(data) : null;
   });
   const [token, setToken] = useState(localStorage.getItem('token'));
+
+  useEffect(() => {
+    let subscription;
+
+    if (supabase) {
+      supabase.auth.getSession().then(({ data }) => {
+        if (data?.session?.user) {
+          setUser(data.session.user);
+          setToken(data.session.access_token);
+          localStorage.setItem('user', JSON.stringify(data.session.user));
+          localStorage.setItem('token', data.session.access_token);
+        }
+      });
+
+      const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+        if (session?.user) {
+          setUser(session.user);
+          setToken(session.access_token);
+          localStorage.setItem('user', JSON.stringify(session.user));
+          localStorage.setItem('token', session.access_token);
+        } else {
+          setUser(null);
+          setToken(null);
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+        }
+      });
+
+      subscription = authListener?.subscription;
+    }
+
+    return () => {
+      subscription?.unsubscribe?.();
+    };
+  }, []);
 
   const login = (userData, authToken) => {
     setUser(userData);
@@ -21,6 +57,9 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    if (supabase) {
+      supabase.auth.signOut();
+    }
   };
 
   return (

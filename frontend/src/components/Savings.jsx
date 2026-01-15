@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Savings.css';
 import logo from '../assets/logo2.png';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../services/supabaseClient';
 
 export default function Savings({ onBack }) {
   const { user } = useAuth();
@@ -9,39 +10,66 @@ export default function Savings({ onBack }) {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const savedKey = user?.email ? `saved_recipes_${user.email}` : 'saved_recipes';
-    const data = localStorage.getItem(savedKey);
-    const recipes = data ? JSON.parse(data) : [];
+    const setData = (recipes) => {
+      const getSavedValue = (r) => {
+        if (typeof r.savedAmount === 'number') return r.savedAmount;
+        if (typeof r.cost === 'number') return r.cost;
+        if (Array.isArray(r.consumedIngredients)) {
+          return r.consumedIngredients.reduce((sum, ing) => sum + (ing.totalCost || 0), 0);
+        }
+        return 0;
+      };
 
-    const getSavedValue = (r) => {
-      if (typeof r.savedAmount === 'number') return r.savedAmount;
-      if (typeof r.cost === 'number') return r.cost;
-      if (Array.isArray(r.consumedIngredients)) {
-        return r.consumedIngredients.reduce((sum, ing) => sum + (ing.totalCost || 0), 0);
-      }
-      return 0;
+      const totalSavings = recipes.reduce((sum, r) => sum + getSavedValue(r), 0);
+
+      const flattened = recipes.flatMap(r => (r.consumedIngredients || []).map(ing => ({
+        name: ing.name,
+        quantity: ing.quantity,
+        unit: ing.unit,
+        totalCost: ing.totalCost || 0,
+        date: r.savedAt
+      })));
+
+      const totalKg = flattened
+        .filter(ing => ing.unit && ing.unit.toLowerCase() === 'g')
+        .reduce((sum, ing) => sum + (parseFloat(ing.quantity) || 0), 0) / 1000;
+
+      setSummary({
+        totalSavings: totalSavings.toFixed(2),
+        totalKg: totalKg.toFixed(2)
+      });
+
+      setItems(flattened.sort((a, b) => new Date(b.date) - new Date(a.date)));
     };
 
-    const totalSavings = recipes.reduce((sum, r) => sum + getSavedValue(r), 0);
+    const load = async () => {
+      if (supabase && user?.id) {
+        const { data, error } = await supabase
+          .from('saved_recipes')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('saved_at', { ascending: false });
 
-    const flattened = recipes.flatMap(r => (r.consumedIngredients || []).map(ing => ({
-      name: ing.name,
-      quantity: ing.quantity,
-      unit: ing.unit,
-      totalCost: ing.totalCost || 0,
-      date: r.savedAt
-    })));
+        if (!error) {
+          const normalized = (data || []).map(r => ({
+            name: r.name,
+            savedAt: r.saved_at,
+            savedAmount: r.saved_amount,
+            missingCost: r.missing_cost,
+            consumedIngredients: r.consumed_ingredients || []
+          }));
+          setData(normalized);
+          return;
+        }
+      }
 
-    const totalKg = flattened
-      .filter(ing => ing.unit && ing.unit.toLowerCase() === 'g')
-      .reduce((sum, ing) => sum + (parseFloat(ing.quantity) || 0), 0) / 1000;
+      const savedKey = user?.email ? `saved_recipes_${user.email}` : 'saved_recipes';
+      const data = localStorage.getItem(savedKey);
+      const recipes = data ? JSON.parse(data) : [];
+      setData(recipes);
+    };
 
-    setSummary({
-      totalSavings: totalSavings.toFixed(2),
-      totalKg: totalKg.toFixed(2)
-    });
-
-    setItems(flattened.sort((a, b) => new Date(b.date) - new Date(a.date)));
+    load();
   }, [user]);
 
   return (

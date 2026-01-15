@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Auth.css';
 import logo from '../assets/logo2.png';
+import { supabase } from '../services/supabaseClient';
 
 export default function Register({ onSwitchToLogin }) {
   const [email, setEmail] = useState('');
@@ -12,24 +13,48 @@ export default function Register({ onSwitchToLogin }) {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    try {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      
-      if (users.find(u => u.email === email)) {
-        setError('Email already registered');
-        return;
+    const run = async () => {
+      try {
+        if (supabase) {
+          const { data, error: authError } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: { username }
+            }
+          });
+
+          if (authError) {
+            setError(authError.message || 'Registrace selhala');
+            return;
+          }
+
+          if (data?.session?.user) {
+            login(data.session.user, data.session.access_token);
+            setError('');
+          } else {
+            setError('Registrace dokončena. Potvrď email a přihlaš se.');
+          }
+          return;
+        }
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (users.find(u => u.email === email)) {
+          setError('Email již existuje');
+          return;
+        }
+        const newUser = { email, username, password };
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+        const mockToken = 'mock_token_' + Date.now();
+        login({ email, username }, mockToken);
+        setError('');
+      } catch (err) {
+        setError('Registrace selhala');
       }
-      
-      const newUser = { email, username, password };
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
-      
-      const mockToken = 'mock_token_' + Date.now();
-      login({ email, username }, mockToken);
-      setError('');
-    } catch (err) {
-      setError('Registration failed');
-    }
+    };
+
+    run();
   };
 
   return (

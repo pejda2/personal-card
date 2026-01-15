@@ -4,6 +4,7 @@ import { mockIngredients } from '../services/mockApi';
 import { extendedRecipes } from '../services/extendedApi';
 import logo from '../assets/logo2.png';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../services/supabaseClient';
 
 const INGREDIENT_CATEGORIES = {
   'Maso a uzeniny': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -37,14 +38,28 @@ export default function Fridge({ onBack, onSelectRecipe }) {
 
   const fridgeKey = user?.email ? `fridge_items_${user.email}` : 'fridge_items';
 
-  const loadFridge = () => {
+  const loadFridge = async () => {
+    if (supabase && user?.id) {
+      const { data, error } = await supabase
+        .from('fridge_items')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('added_at', { ascending: false });
+
+      if (!error) {
+        setFridge(data || []);
+        setEditQuantities({});
+        return;
+      }
+    }
+
     const data = localStorage.getItem(fridgeKey);
     const items = data ? JSON.parse(data) : [];
     setFridge(items);
     setEditQuantities({});
   };
 
-  const handleAddItem = (ingredientId, quantity, expiration) => {
+  const handleAddItem = async (ingredientId, quantity, expiration) => {
     if (quantity <= 0) return;
 
     const ingredient = ingredients.find(i => i.id === ingredientId);
@@ -59,9 +74,28 @@ export default function Fridge({ onBack, onSelectRecipe }) {
       addedAt: new Date().toISOString()
     };
 
-    const updatedFridge = [...fridge, newItem];
-    localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
-    setFridge(updatedFridge);
+    if (supabase && user?.id) {
+      const { data, error } = await supabase
+        .from('fridge_items')
+        .insert({
+          user_id: user.id,
+          name: ingredient.name,
+          quantity: parseFloat(quantity),
+          unit: ingredient.unit,
+          expiration: expiration || null,
+          added_at: new Date().toISOString()
+        })
+        .select('*')
+        .single();
+
+      if (!error && data) {
+        setFridge(prev => [data, ...prev]);
+      }
+    } else {
+      const updatedFridge = [...fridge, newItem];
+      localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
+      setFridge(updatedFridge);
+    }
     
     setIngredientInputs(prev => ({
       ...prev,
@@ -69,22 +103,37 @@ export default function Fridge({ onBack, onSelectRecipe }) {
     }));
   };
 
-  const handleDeleteItem = (id) => {
-    const updatedFridge = fridge.filter(item => item.id !== id);
-    localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
-    setFridge(updatedFridge);
+  const handleDeleteItem = async (id) => {
+    if (supabase && user?.id) {
+      await supabase.from('fridge_items').delete().eq('id', id);
+    } else {
+      const updatedFridge = fridge.filter(item => item.id !== id);
+      localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
+    }
+    setFridge(prev => prev.filter(item => item.id !== id));
   };
 
-  const handleUpdateItemQuantity = (id) => {
+  const handleUpdateItemQuantity = async (id) => {
     const raw = editQuantities[id];
     const newQty = parseFloat(raw);
     if (!Number.isFinite(newQty) || newQty <= 0) return;
 
-    const updatedFridge = fridge.map(item =>
+    if (supabase && user?.id) {
+      await supabase
+        .from('fridge_items')
+        .update({ quantity: newQty })
+        .eq('id', id);
+    } else {
+      const updatedFridge = fridge.map(item =>
+        item.id === id ? { ...item, quantity: newQty } : item
+      );
+      localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
+      setFridge(updatedFridge);
+    }
+
+    setFridge(prev => prev.map(item =>
       item.id === id ? { ...item, quantity: newQty } : item
-    );
-    localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
-    setFridge(updatedFridge);
+    ));
     setEditQuantities(prev => ({
       ...prev,
       [id]: ''

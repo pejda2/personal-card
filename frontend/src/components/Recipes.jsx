@@ -5,6 +5,7 @@ import { mockIngredients } from '../services/mockApi';
 import { geminiService } from '../services/geminiService';
 import logo from '../assets/logo2.png';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../services/supabaseClient';
 
 export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
   const { user } = useAuth();
@@ -167,7 +168,7 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
     return total.toFixed(2);
   };
 
-  const handleCompleteRecipe = (recipe) => {
+  const handleCompleteRecipe = async (recipe) => {
     // Prepare consumed ingredients details
     const consumedIngredients = [];
     
@@ -199,21 +200,47 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
       }
     });
     const fridgeKey = user?.email ? `fridge_items_${user.email}` : 'fridge_items';
-    localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
+    if (supabase && user?.id) {
+      const updates = updatedFridge.map(item =>
+        supabase
+          .from('fridge_items')
+          .update({ quantity: item.quantity })
+          .eq('id', item.id)
+      );
+      const removed = fridgeItems
+        .filter(item => !updatedFridge.find(u => u.id === item.id))
+        .map(item => supabase.from('fridge_items').delete().eq('id', item.id));
+      await Promise.all([...updates, ...removed]);
+    } else {
+      localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
+    }
     
     // Save recipe as completed with consumed ingredients (savings = spotřebované z lednice)
     const savedAmount = consumedIngredients.reduce((sum, ing) => sum + ing.totalCost, 0).toFixed(2);
     const { missingCost } = computeCosts(recipe);
     const savedKey = user?.email ? `saved_recipes_${user.email}` : 'saved_recipes';
-    const saved = JSON.parse(localStorage.getItem(savedKey) || '[]');
-    saved.push({ 
+    const savedEntry = {
       name: recipe.name,
       savedAt: new Date().toISOString(),
       savedAmount: parseFloat(savedAmount),
       missingCost: parseFloat(missingCost),
-      consumedIngredients: consumedIngredients
-    });
-    localStorage.setItem(savedKey, JSON.stringify(saved));
+      consumedIngredients
+    };
+
+    if (supabase && user?.id) {
+      await supabase.from('saved_recipes').insert({
+        user_id: user.id,
+        name: recipe.name,
+        saved_at: savedEntry.savedAt,
+        saved_amount: savedEntry.savedAmount,
+        missing_cost: savedEntry.missingCost,
+        consumed_ingredients: consumedIngredients
+      });
+    } else {
+      const saved = JSON.parse(localStorage.getItem(savedKey) || '[]');
+      saved.push(savedEntry);
+      localStorage.setItem(savedKey, JSON.stringify(saved));
+    }
     
     setSelectedRecipe(null);
     onCompleteRecipe(recipe);

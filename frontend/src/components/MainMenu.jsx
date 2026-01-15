@@ -2,15 +2,33 @@ import React, { useEffect, useMemo, useState } from 'react';
 import '../styles/Main.css';
 import logo from '../assets/logo2.png';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../services/supabaseClient';
 
 export default function MainMenu({ onSelectMenu, onLogout }) {
   const { user } = useAuth();
   const [fridgeItems, setFridgeItems] = useState([]);
 
   useEffect(() => {
-    const fridgeKey = user?.email ? `fridge_items_${user.email}` : 'fridge_items';
-    const data = localStorage.getItem(fridgeKey);
-    setFridgeItems(data ? JSON.parse(data) : []);
+    const load = async () => {
+      if (supabase && user?.id) {
+        const { data, error } = await supabase
+          .from('fridge_items')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('added_at', { ascending: false });
+
+        if (!error) {
+          setFridgeItems(data || []);
+          return;
+        }
+      }
+
+      const fridgeKey = user?.email ? `fridge_items_${user.email}` : 'fridge_items';
+      const data = localStorage.getItem(fridgeKey);
+      setFridgeItems(data ? JSON.parse(data) : []);
+    };
+
+    load();
   }, [user]);
 
   const ingredientIcons = useMemo(() => {
