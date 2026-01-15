@@ -2,7 +2,7 @@
 
 ## 🚀 Live Demo
 
-**Aplikace běží na:** https://personal-card.vercel.app
+**Aplikace běží na:** https://personal-card-wine.vercel.app
 
 ## Popis projektu
 
