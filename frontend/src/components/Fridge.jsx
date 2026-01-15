@@ -37,11 +37,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
     const data = localStorage.getItem('fridge_items');
     const items = data ? JSON.parse(data) : [];
     setFridge(items);
-    const qtyMap = items.reduce((acc, item) => {
-      acc[item.id] = item.quantity;
-      return acc;
-    }, {});
-    setEditQuantities(qtyMap);
+    setEditQuantities({});
   };
 
   const handleAddItem = (ingredientId, quantity, expiration) => {
@@ -85,6 +81,10 @@ export default function Fridge({ onBack, onSelectRecipe }) {
     );
     localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
     setFridge(updatedFridge);
+    setEditQuantities(prev => ({
+      ...prev,
+      [id]: ''
+    }));
   };
 
   const toggleCategory = (category) => {
@@ -342,18 +342,19 @@ export default function Fridge({ onBack, onSelectRecipe }) {
                   <div className="item-info">
                     <span className="item-name">{item.name}</span>
                     <div className="item-qty-edit">
+                      <span className="item-qty-display">{item.quantity} {item.unit}</span>
                       <input
                         type="number"
                         min="0"
                         step="any"
                         className="item-qty-input"
-                        value={editQuantities[item.id] ?? item.quantity}
+                        value={editQuantities[item.id] ?? ''}
+                        placeholder="Změnit množství"
                         onChange={(e) => setEditQuantities(prev => ({
                           ...prev,
                           [item.id]: e.target.value
                         }))}
                       />
-                      <span className="item-unit">{item.unit}</span>
                       <button
                         onClick={() => handleUpdateItemQuantity(item.id)}
                         className="save-btn"

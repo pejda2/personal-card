@@ -321,6 +321,13 @@
   flex-wrap: wrap;
 }
 
+.item-qty-display {
+  color: #FFA500;
+  font-weight: 700;
+  font-size: 1rem;
+  min-width: 70px;
+}
+
 .item-qty-input {
   width: 110px;
   padding: 6px 10px;
