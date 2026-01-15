@@ -112,9 +112,11 @@ export default function MainMenu({ onSelectMenu, onLogout }) {
               <div className="calendar-header">{monthName}</div>
               <div className="calendar-grid">
                 {dayNumbers.map(day => (
-                  <div key={day} className="calendar-day">
+                  <div
+                    key={day}
+                    className={`calendar-day${day === currentDay ? ' current' : ''}`}
+                  >
                     {day}
-                    {day === currentDay && <span className="calendar-dot" />}
                   </div>
                 ))}
               </div>

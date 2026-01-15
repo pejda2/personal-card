@@ -141,6 +141,10 @@
   background: linear-gradient(180deg, #ffb347 0%, #ff7a00 100%);
 }
 
+.fridge-door::before {
+  content: none;
+}
+
 @keyframes fridgeOpen {
   0%, 40% {
     transform: rotateY(0deg);
@@ -258,14 +262,17 @@
   font-weight: 600;
 }
 
-.calendar-dot {
+.calendar-day.current {
+  color: #c21f1f;
+  font-weight: 700;
+}
+
+.calendar-day.current::after {
+  content: '';
   position: absolute;
-  right: 2px;
-  top: 2px;
-  width: 6px;
-  height: 6px;
+  inset: -2px;
+  border: 2px solid #ff4d4f;
   border-radius: 50%;
-  background: #ff4d4f;
 }
 
 @media (max-width: 900px) {
