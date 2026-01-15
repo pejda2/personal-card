@@ -4,8 +4,10 @@ import { extendedRecipes, calculateRecipeCost } from '../services/extendedApi';
 import { mockIngredients } from '../services/mockApi';
 import { geminiService } from '../services/geminiService';
 import logo from '../assets/logo2.png';
+import { useAuth } from '../context/AuthContext';
 
 export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
+  const { user } = useAuth();
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [expandedCategories, setExpandedCategories] = useState({});
@@ -196,12 +198,14 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
         }
       }
     });
-    localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
+    const fridgeKey = user?.email ? `fridge_items_${user.email}` : 'fridge_items';
+    localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
     
     // Save recipe as completed with consumed ingredients (savings = spotřebované z lednice)
     const savedAmount = consumedIngredients.reduce((sum, ing) => sum + ing.totalCost, 0).toFixed(2);
     const { missingCost } = computeCosts(recipe);
-    const saved = JSON.parse(localStorage.getItem('saved_recipes') || '[]');
+    const savedKey = user?.email ? `saved_recipes_${user.email}` : 'saved_recipes';
+    const saved = JSON.parse(localStorage.getItem(savedKey) || '[]');
     saved.push({ 
       name: recipe.name,
       savedAt: new Date().toISOString(),
@@ -209,7 +213,7 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
       missingCost: parseFloat(missingCost),
       consumedIngredients: consumedIngredients
     });
-    localStorage.setItem('saved_recipes', JSON.stringify(saved));
+    localStorage.setItem(savedKey, JSON.stringify(saved));
     
     setSelectedRecipe(null);
     onCompleteRecipe(recipe);

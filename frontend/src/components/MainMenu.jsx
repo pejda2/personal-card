@@ -1,15 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import '../styles/Main.css';
 import logo from '../assets/logo2.png';
-import horciceIcon from '../assets/horcice.png';
+import { useAuth } from '../context/AuthContext';
 
 export default function MainMenu({ onSelectMenu, onLogout }) {
+  const { user } = useAuth();
   const [fridgeItems, setFridgeItems] = useState([]);
 
   useEffect(() => {
-    const data = localStorage.getItem('fridge_items');
+    const fridgeKey = user?.email ? `fridge_items_${user.email}` : 'fridge_items';
+    const data = localStorage.getItem(fridgeKey);
     setFridgeItems(data ? JSON.parse(data) : []);
-  }, []);
+  }, [user]);
 
   const ingredientIcons = useMemo(() => {
     const iconMap = {

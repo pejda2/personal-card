@@ -31,6 +31,7 @@ function App() {
     logout();
     setCurrentPage('home');
     setShowAuth(false);
+    setFridgeItems([]);
   };
 
   const handleSelectMenu = (menu) => {

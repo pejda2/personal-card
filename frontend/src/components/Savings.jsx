@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Savings.css';
 import logo from '../assets/logo2.png';
+import { useAuth } from '../context/AuthContext';
 
 export default function Savings({ onBack }) {
+  const { user } = useAuth();
   const [summary, setSummary] = useState({ totalSavings: 0, totalKg: 0 });
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const data = localStorage.getItem('saved_recipes');
+    const savedKey = user?.email ? `saved_recipes_${user.email}` : 'saved_recipes';
+    const data = localStorage.getItem(savedKey);
     const recipes = data ? JSON.parse(data) : [];
 
     const getSavedValue = (r) => {
@@ -39,7 +42,7 @@ export default function Savings({ onBack }) {
     });
 
     setItems(flattened.sort((a, b) => new Date(b.date) - new Date(a.date)));
-  }, []);
+  }, [user]);
 
   return (
     <div className="savings-container">

@@ -3,6 +3,7 @@ import '../styles/Fridge.css';
 import { mockIngredients } from '../services/mockApi';
 import { extendedRecipes } from '../services/extendedApi';
 import logo from '../assets/logo2.png';
+import { useAuth } from '../context/AuthContext';
 
 const INGREDIENT_CATEGORIES = {
   'Maso a uzeniny': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -14,6 +15,7 @@ const INGREDIENT_CATEGORIES = {
 };
 
 export default function Fridge({ onBack, onSelectRecipe }) {
+  const { user } = useAuth();
   const [fridge, setFridge] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState({});
@@ -31,10 +33,12 @@ export default function Fridge({ onBack, onSelectRecipe }) {
       return acc;
     }, {});
     setExpandedCategories(collapsed);
-  }, []);
+  }, [user]);
+
+  const fridgeKey = user?.email ? `fridge_items_${user.email}` : 'fridge_items';
 
   const loadFridge = () => {
-    const data = localStorage.getItem('fridge_items');
+    const data = localStorage.getItem(fridgeKey);
     const items = data ? JSON.parse(data) : [];
     setFridge(items);
     setEditQuantities({});
@@ -56,7 +60,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
     };
 
     const updatedFridge = [...fridge, newItem];
-    localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
+    localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
     setFridge(updatedFridge);
     
     setIngredientInputs(prev => ({
@@ -67,7 +71,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
 
   const handleDeleteItem = (id) => {
     const updatedFridge = fridge.filter(item => item.id !== id);
-    localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
+    localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
     setFridge(updatedFridge);
   };
 
@@ -79,7 +83,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
     const updatedFridge = fridge.map(item =>
       item.id === id ? { ...item, quantity: newQty } : item
     );
-    localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
+    localStorage.setItem(fridgeKey, JSON.stringify(updatedFridge));
     setFridge(updatedFridge);
     setEditQuantities(prev => ({
       ...prev,
