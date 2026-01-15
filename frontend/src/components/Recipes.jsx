@@ -232,7 +232,11 @@ export default function Recipes({ fridgeItems, onBack, onCompleteRecipe }) {
           <div className="recipe-info">
             <p><strong>Čas přípravy:</strong> {selectedRecipe.time} minut</p>
             <p><strong>Kategorie:</strong> {selectedRecipe.category === 'salty' ? 'Slané' : 'Sladké'}</p>
-            <p><strong>Orientační cena:</strong> {selectedRecipe.price} Kč</p>
+            {(() => {
+              const { missingCost, savedCost } = computeCosts(selectedRecipe);
+              const totalCost = (parseFloat(missingCost) + parseFloat(savedCost)).toFixed(2);
+              return <p><strong>Orientační cena:</strong> {totalCost} Kč</p>;
+            })()}
           </div>
 
           <div className="ingredients-status">

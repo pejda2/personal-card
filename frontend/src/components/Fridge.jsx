@@ -20,6 +20,7 @@ export default function Fridge({ onBack, onSelectRecipe }) {
   const [ingredientInputs, setIngredientInputs] = useState({});
   const [selectedIngredients, setSelectedIngredients] = useState({});
   const [topExpanded, setTopExpanded] = useState(false);
+  const [editQuantities, setEditQuantities] = useState({});
 
   useEffect(() => {
     loadFridge();
@@ -34,7 +35,13 @@ export default function Fridge({ onBack, onSelectRecipe }) {
 
   const loadFridge = () => {
     const data = localStorage.getItem('fridge_items');
-    setFridge(data ? JSON.parse(data) : []);
+    const items = data ? JSON.parse(data) : [];
+    setFridge(items);
+    const qtyMap = items.reduce((acc, item) => {
+      acc[item.id] = item.quantity;
+      return acc;
+    }, {});
+    setEditQuantities(qtyMap);
   };
 
   const handleAddItem = (ingredientId, quantity, expiration) => {
@@ -64,6 +71,18 @@ export default function Fridge({ onBack, onSelectRecipe }) {
 
   const handleDeleteItem = (id) => {
     const updatedFridge = fridge.filter(item => item.id !== id);
+    localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
+    setFridge(updatedFridge);
+  };
+
+  const handleUpdateItemQuantity = (id) => {
+    const raw = editQuantities[id];
+    const newQty = parseFloat(raw);
+    if (!Number.isFinite(newQty) || newQty <= 0) return;
+
+    const updatedFridge = fridge.map(item =>
+      item.id === id ? { ...item, quantity: newQty } : item
+    );
     localStorage.setItem('fridge_items', JSON.stringify(updatedFridge));
     setFridge(updatedFridge);
   };
@@ -322,7 +341,26 @@ export default function Fridge({ onBack, onSelectRecipe }) {
                 <div key={item.id} className="fridge-item">
                   <div className="item-info">
                     <span className="item-name">{item.name}</span>
-                    <span className="item-qty">{item.quantity} {item.unit}</span>
+                    <div className="item-qty-edit">
+                      <input
+                        type="number"
+                        min="0"
+                        step="any"
+                        className="item-qty-input"
+                        value={editQuantities[item.id] ?? item.quantity}
+                        onChange={(e) => setEditQuantities(prev => ({
+                          ...prev,
+                          [item.id]: e.target.value
+                        }))}
+                      />
+                      <span className="item-unit">{item.unit}</span>
+                      <button
+                        onClick={() => handleUpdateItemQuantity(item.id)}
+                        className="save-btn"
+                      >
+                        Uložit
+                      </button>
+                    </div>
                     {item.expiration && (
                       <span className="item-date">
                         Exp: {new Date(item.expiration).toLocaleDateString('cs-CZ')}
