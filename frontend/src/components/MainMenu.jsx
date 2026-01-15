@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import '../styles/Main.css';
 import logo from '../assets/logo2.png';
+import horciceIcon from '../assets/horcice.png';
 
 export default function MainMenu({ onSelectMenu, onLogout }) {
   const [fridgeItems, setFridgeItems] = useState([]);
@@ -95,8 +96,8 @@ export default function MainMenu({ onSelectMenu, onLogout }) {
       'cokolada': '🍫',
       'kečup': '🍅',
       'kecup': '🍅',
-      'hořčice': '🧴',
-      'horcice': '🧴',
+      'hořčice': horciceIcon,
+      'horcice': horciceIcon,
       'rajčatový protlak': '🍅',
       'rajcatovy protlak': '🍅',
       'sojová omáčka': '🍶',
@@ -133,7 +134,16 @@ export default function MainMenu({ onSelectMenu, onLogout }) {
               <div className="fridge-body">
                 <div className="fridge-items-grid">
                   {ingredientIcons.map((icon, idx) => (
-                    <span key={`${icon}-${idx}`} className="fridge-item-icon">{icon}</span>
+                    typeof icon === 'string' ? (
+                      <span key={`${icon}-${idx}`} className="fridge-item-icon">{icon}</span>
+                    ) : (
+                      <img
+                        key={`img-${idx}`}
+                        src={icon}
+                        alt="Surovina"
+                        className="fridge-item-image"
+                      />
+                    )
                   ))}
                 </div>
                 <div className="fridge-shelf" />
