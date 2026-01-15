@@ -108,8 +108,11 @@ export default function MainMenu({ onSelectMenu, onLogout }) {
       new Set(fridgeItems.map(item => item.name.toLowerCase()))
     );
 
-    return uniqueNames.slice(0, 10).map(name => iconMap[name] || '🥕');
+    return uniqueNames.slice(0, 12).map(name => iconMap[name] || '🥕');
   }, [fridgeItems]);
+
+  const topShelfIcons = ingredientIcons.slice(0, 6);
+  const bottomShelfIcons = ingredientIcons.slice(6, 12);
 
   const today = new Date();
   const monthNames = ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'];
@@ -132,22 +135,41 @@ export default function MainMenu({ onSelectMenu, onLogout }) {
           <div className="icon-tile">
             <div className="fridge-visual">
               <div className="fridge-body">
-                <div className="fridge-items-grid">
-                  {ingredientIcons.map((icon, idx) => (
-                    typeof icon === 'string' ? (
-                      <span key={`${icon}-${idx}`} className="fridge-item-icon">{icon}</span>
-                    ) : (
-                      <img
-                        key={`img-${idx}`}
-                        src={icon}
-                        alt="Surovina"
-                        className="fridge-item-image"
-                      />
-                    )
-                  ))}
+                <div className="fridge-shelf-area">
+                  <div className="fridge-items-grid">
+                    {topShelfIcons.map((icon, idx) => (
+                      typeof icon === 'string' ? (
+                        <span key={`top-${icon}-${idx}`} className="fridge-item-icon">{icon}</span>
+                      ) : (
+                        <img
+                          key={`top-img-${idx}`}
+                          src={icon}
+                          alt="Surovina"
+                          className="fridge-item-image"
+                        />
+                      )
+                    ))}
+                  </div>
+                  <div className="fridge-shelf" />
                 </div>
-                <div className="fridge-shelf" />
-                <div className="fridge-shelf shelf-lower" />
+
+                <div className="fridge-shelf-area">
+                  <div className="fridge-items-grid">
+                    {bottomShelfIcons.map((icon, idx) => (
+                      typeof icon === 'string' ? (
+                        <span key={`bottom-${icon}-${idx}`} className="fridge-item-icon">{icon}</span>
+                      ) : (
+                        <img
+                          key={`bottom-img-${idx}`}
+                          src={icon}
+                          alt="Surovina"
+                          className="fridge-item-image"
+                        />
+                      )
+                    ))}
+                  </div>
+                  <div className="fridge-shelf shelf-lower" />
+                </div>
               </div>
               <div className="fridge-door" />
             </div>
