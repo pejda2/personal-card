@@ -94,6 +94,10 @@
   gap: 16px;
 }
 
+.top-card {
+  margin-bottom: 16px;
+}
+
 .category-card {
   background: #fafafa;
   border: 2px solid #e8e8e8;
